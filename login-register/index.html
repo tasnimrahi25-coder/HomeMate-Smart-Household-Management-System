@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HomeMate — Login / Register</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="card">
+  <!-- Left -->
+  <div class="brand">
+    <svg viewBox="0 0 24 24" fill="none" stroke="#1e3a8a" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M3 10.5 12 3l9 7.5"/><path d="M5 9.5V21h14V9.5"/><path d="M9 21v-6h6v6"/>
+    </svg>
+    <h1>HomeMate</h1>
+    <p class="tagline">Better Home, Happier Life.</p>
+    <svg class="house" viewBox="0 0 260 180">
+      <rect x="0" y="0" width="260" height="180" fill="none"/>
+      <ellipse cx="60" cy="160" rx="34" ry="8" fill="#dbe7f7"/>
+      <ellipse cx="200" cy="160" rx="34" ry="8" fill="#dbe7f7"/>
+      <circle cx="42" cy="90" r="16" fill="#9fd3b4"/>
+      <rect x="39" y="104" width="6" height="40" fill="#8b6f4e"/>
+      <circle cx="70" cy="112" r="12" fill="#7fc7a3"/>
+      <rect x="67" y="122" width="6" height="30" fill="#8b6f4e"/>
+      <circle cx="222" cy="96" r="14" fill="#9fd3b4"/>
+      <rect x="219" y="108" width="6" height="36" fill="#8b6f4e"/>
+      <path d="M175 60 q26 -16 52 0 l0 14 q-26 -16 -52 0 z" fill="#cfe0f4"/>
+      <rect x="85" y="70" width="100" height="85" rx="6" fill="#ffe3c2"/>
+      <path d="M75 75 L135 25 L195 75 Z" fill="#7f96b5"/>
+      <rect x="155" y="38" width="12" height="24" fill="#7f96b5"/>
+      <rect x="102" y="92" width="20" height="20" rx="3" fill="#bcd6f7"/>
+      <rect x="148" y="92" width="20" height="20" rx="3" fill="#bcd6f7"/>
+      <rect x="123" y="118" width="24" height="37" rx="4" fill="#7fb2e0"/>
+    </svg>
+    <p class="slogan">Manage your home,<br>plan your days, live better.</p>
+  </div>
+
+  <!-- Right -->
+  <div class="form-side">
+    <div class="tabs">
+      <button class="tab active" id="tabLogin" onclick="show('login')">Login</button>
+      <button class="tab" id="tabRegister" onclick="show('register')">Register</button>
+    </div>
+
+    <!-- Login -->
+    <form id="loginForm" onsubmit="return handleSubmit('login')">
+      <h2>Welcome Back!</h2>
+      <p class="sub">Log in to your HomeMate account</p>
+      <div class="field">
+        <span class="icon">✉</span>
+        <input class="has-icon" type="email" placeholder="Email address" required>
+      </div>
+      <div class="field">
+        <span class="icon">🔒</span>
+        <input class="has-icon" type="password" id="loginPass" placeholder="Password" required>
+        <button type="button" class="eye" onclick="togglePass('loginPass')">👁</button>
+      </div>
+      <div class="row">
+        <label style="margin:0"><input type="checkbox" checked>Remember me</label>
+        <a href="#">Forgot password?</a>
+      </div>
+      <button class="btn" type="submit">Login</button>
+      <p class="switch">Don't have an account? <a href="#" onclick="show('register');return false">Create one</a></p>
+    </form>
+
+    <!-- Register -->
+    <form id="registerForm" class="hidden" onsubmit="return handleSubmit('register')">
+      <h2>Create Account</h2>
+      <p class="sub">Sign up to start managing your home</p>
+      <div class="field">
+        <span class="icon">👤</span>
+        <input class="has-icon" type="text" placeholder="Full name" required>
+      </div>
+      <div class="field">
+        <span class="icon">✉</span>
+        <input class="has-icon" type="email" placeholder="Email address" required>
+      </div>
+      <div class="field">
+        <span class="icon">🔒</span>
+        <input class="has-icon" type="password" id="regPass" placeholder="Password" minlength="6" required>
+        <button type="button" class="eye" onclick="togglePass('regPass')">👁</button>
+      </div>
+      <div class="field">
+        <span class="icon">🔒</span>
+        <input class="has-icon" type="password" placeholder="Confirm password" required>
+      </div>
+      <button class="btn" type="submit">Register</button>
+      <p class="switch">Already have an account? <a href="#" onclick="show('login');return false">Login</a></p>
+    </form>
+  </div>
+</div>
+
+<script src="script.js"></script>
+
+</body>
+</html>
