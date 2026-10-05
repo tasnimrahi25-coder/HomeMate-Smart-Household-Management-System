@@ -148,6 +148,7 @@ Add appliance maintenance and bills with due dates to receive reminders.
 
 
 👥 Team Members & Responsibilities
+
 Syeda Tasnim Rahman — Project Leader
 Overall project management, planning, task distribution, coordination between team members, timeline tracking, final integration and review.
 
