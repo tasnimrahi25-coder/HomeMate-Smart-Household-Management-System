@@ -1,45 +1,53 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Recipe Finder</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>HomeMate - Pantry Manager</title>
+  <!-- Link external CSS -->
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div class="recipe-finder-container">
-        <h1>Recipe Finder</h1>
 
-        <form id="search-form" class="search-box">
-            <input type="text" id="search-input" placeholder="Enter an ingredient or recipe name(eg. chicken, pasta, salad .....)"/>
-           
-            <button type="submit" id="search-button">Search</button>
-        </form>
+  <div class="container">
+    <h2>🏠 HomeMate Pantry</h2>
 
-        <div class="random-button-container">
-            <button id="random-button">Find a Random Recipe</button>
-        </div>
-        <div class="message loading" id="message-area">Search for a recipe or get a random one</div>
-        <div class="results-grid" id="results-grid"> </div>
-           
-
-        <div class="modal-container hidden" id="recipe-modal">
-            <div class="modal-content">
-                <button type="button" class="modal-close-btn" id="modal-close-btn" aria-label="Close recipe details">&times;</button>
-                <div id="recipe-details-content">
-                        </div>
-                    </div>
-                    </div>
-                </div>
-
-
-            </div>
-        </div>
-        </div>
+    <div>
+      <h3>Add New Item</h3>
+      <div class="form-group">
+        <input type="text" id="itemName" placeholder="Item Name (e.g., Milk)">
+      </div>
+      <div class="form-group">
+        <input type="text" id="itemQuantity" placeholder="Quantity (e.g., 2)">
+      </div>
+      <div class="form-group">
+        <input type="text" id="itemUnit" placeholder="Unit (e.g., Liters)">
+      </div>
+      <div class="form-group">
+        <input type="text" id="expiryDate" placeholder="Expiry Date / Days (e.g., 7)">
+      </div>
+      <button id="addBtn">Save Item</button>
     </div>
-    <script src="script.js"></script>
+
+    <hr style="margin: 20px 0;">
+
+    <h3>Pantry Items List</h3>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Quantity</th>
+          <th>Unit</th>
+          <th>Expiry</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody id="pantryTableBody">
+        <tr><td colspan="5">Loading data...</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <script type="module" src="script.js"></script>
 </body>
 </html>
