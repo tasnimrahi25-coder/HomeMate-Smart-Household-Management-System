@@ -26,6 +26,21 @@ html,body{
     margin-inline: auto;
 }
 
+.home-link{
+    display: block;
+    width: fit-content;
+    margin: 0 0 14px;
+    color: #267c36;
+    font-size: 0.95rem;
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.home-link:hover{
+    color: #1f682d;
+    text-decoration: underline;
+}
+
 h1{
     font-size: 2.5rem;
     font-weight: 700;
@@ -47,6 +62,65 @@ h1{
     border-radius: 8px;
     margin-inline: auto;
 
+}
+
+.pantry-search{
+    max-width: 600px;
+    margin: 0 auto 24px;
+    padding: 20px;
+    border: 1px solid #e3ece4;
+    border-radius: 12px;
+    background: #fff;
+    text-align: left;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.045);
+}
+
+.pantry-search > label{
+    display: block;
+    margin-bottom: 2px;
+    color: #2f6638;
+    font-size: 1.1rem;
+    font-weight: 700;
+}
+
+.pantry-search > p{
+    margin-bottom: 13px;
+    color: #68736a;
+    font-size: 0.88rem;
+}
+
+.pantry-search-box{
+    margin-bottom: 0;
+    box-shadow: none;
+}
+
+.pantry-search-box #pantry-search-input{
+    min-width: 0;
+    padding: 12px 14px;
+    border: 1px solid #dfe7df;
+    border-radius: 8px 0 0 8px;
+    outline: none;
+    flex-grow: 1;
+    font: inherit;
+}
+
+.pantry-search-box #pantry-search-input:focus{
+    border-color: var(--primary-color);
+}
+
+#pantry-search-button{
+    padding: 12px 17px;
+    border: 0;
+    border-radius: 0 8px 8px 0;
+    background: #27833a;
+    color: #fff;
+    cursor: pointer;
+    font: 600 0.9rem "Poppins", sans-serif;
+    white-space: nowrap;
+}
+
+#pantry-search-button:hover{
+    background: #1f682d;
 }
 
 #search-input{
@@ -173,6 +247,17 @@ h1{
     font-weight: 600;
     padding: 15px;
     margin:0;
+}
+
+.match-badge{
+    width: fit-content;
+    margin: 0 15px 15px;
+    padding: 4px 9px;
+    border-radius: 999px;
+    background: #e6f5e8;
+    color: #267c36;
+    font-size: 0.78rem;
+    font-weight: 600;
 }
 
 .modal-container{
@@ -306,4 +391,49 @@ h1{
 
 #recipe-details-content a:hover {
     text-decoration: underline;
+}
+
+@media (max-width: 600px) {
+    html,
+    body {
+        padding: 20px 10px;
+    }
+
+    .recipe-finder-container {
+        padding: 0 5px;
+    }
+
+    h1 {
+        font-size: 2rem;
+        margin-bottom: 22px;
+    }
+
+    .pantry-search {
+        padding: 15px;
+    }
+
+    .search-box input {
+        min-width: 0;
+    }
+
+    #search-button,
+    #pantry-search-button {
+        padding-right: 12px;
+        padding-left: 12px;
+        font-size: 0.82rem;
+    }
+
+    .results-grid {
+        grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+        gap: 14px;
+    }
+
+    .recipe-item h3 {
+        font-size: 1.1rem;
+        padding: 12px;
+    }
+
+    .recipe-item img {
+        height: 170px;
+    }
 }

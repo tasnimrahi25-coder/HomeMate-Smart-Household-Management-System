@@ -11,6 +11,15 @@ body {
   border-radius: 8px; 
   box-shadow: 0 2px 5px rgba(0,0,0,0.1); 
 }
+.home-link {
+  display: inline-block;
+  margin-bottom: 12px;
+  color: #267c36;
+  font-size: 14px;
+  font-weight: 600;
+  text-decoration: none;
+}
+.home-link:hover { color: #1f682d; text-decoration: underline; }
 h2, h3 { color: #333; }
 .form-group { margin-bottom: 12px; }
 input { 

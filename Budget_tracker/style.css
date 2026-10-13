@@ -29,6 +29,20 @@ body {
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.02);
 }
 
+.home-link {
+  display: inline-block;
+  margin-bottom: 24px;
+  color: #267c36;
+  font-size: 14px;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.home-link:hover {
+  color: #1f682d;
+  text-decoration: underline;
+}
+
 .app-title {
   display: flex;
   align-items: center;
