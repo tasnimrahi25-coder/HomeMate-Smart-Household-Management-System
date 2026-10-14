@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Grocery Management</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+
+    <div class="container">
+        <div class="top-bar">
+            <div class="search-box">
+                <i class="fa fa-search"></i>
+                <input type="text" id="search-input" placeholder="Search grocery items...">
+            </div>
+            <div class="user-area">
+                <span class="avatar">U</span>
+                <i class="fa fa-bell"></i>
+            </div>
+        </div>
+        <div class="header-section">
+            <h2>Grocery List</h2>
+            <button class="add-btn"><i class="fa fa-plus"></i> Add Item</button>
+        </div>
+        <div class="cards-box">
+            <div class="card green">
+                <div>
+                    <p>Total Items</p>
+                    <h3 id="total-count">8</h3>
+                </div>
+            </div>
+            <div class="card blue">
+                <div>
+                    <p>Purchased</p>
+                    <h3 id="purchased-count">4</h3>
+                </div>
+            </div>
+            <div class="card orange">
+                <div>
+                    <p>Remaining</p>
+                    <h3 id="remaining-count">4</h3>
+                </div>
+            </div>
+        </div>
+        <div class="grocery-list" id="list-container">
+            <div class="grocery-row">
+                <div class="row-left">
+                    <input type="checkbox" checked class="item-checkbox">
+                    <span class="item-name">Milk</span>
+                </div>
+                <span class="status purchased">Purchased</span>
+                <span class="date">12 May</span>
+                <button class="delete-btn"><i class="fa fa-trash"></i></button>
+            </div>
+            <div class="grocery-row">
+                <div class="row-left">
+                    <input type="checkbox" checked class="item-checkbox">
+                    <span class="item-name">Eggs</span>
+                </div>
+                <span class="status purchased">Purchased</span>
+                <span class="date">12 May</span>
+                <button class="delete-btn"><i class="fa fa-trash"></i></button>
+            </div>
+            <div class="grocery-row">
+                <div class="row-left">
+                    <input type="checkbox" class="item-checkbox">
+                    <span class="item-name">Rice</span>
+                </div>
+                <span class="status pending">Pending</span>
+                <span class="date">13 May</span>
+                <button class="delete-btn"><i class="fa fa-trash"></i></button>
+            </div>
+            <div class="grocery-row">
+                <div class="row-left">
+                    <input type="checkbox" class="item-checkbox">
+                    <span class="item-name">Vegetables</span>
+                </div>
+                <span class="status pending">Pending</span>
+                <span class="date">14 May</span>
+                <button class="delete-btn"><i class="fa fa-trash"></i></button>
+            </div>
+            <div class="grocery-row">
+                <div class="row-left">
+                    <input type="checkbox" class="item-checkbox">
+                    <span class="item-name">Bread</span>
+                </div>
+                <span class="status pending">Pending</span>
+                <span class="date">14 May</span>
+                <button class="delete-btn"><i class="fa fa-trash"></i></button>
+            </div>
+            <div class="grocery-row">
+                <div class="row-left">
+                    <input type="checkbox" class="item-checkbox">
+                    <span class="item-name">Chicken</span>
+                </div>
+                <span class="status pending">Pending</span>
+                <span class="date">15 May</span>
+                <button class="delete-btn"><i class="fa fa-trash"></i></button>
+            </div>
+            <div class="grocery-row">
+                <div class="row-left">
+                    <input type="checkbox" checked class="item-checkbox">
+                    <span class="item-name">Apples</span>
+                </div>
+                <span class="status purchased">Purchased</span>
+                <span class="date">16 May</span>
+                <button class="delete-btn"><i class="fa fa-trash"></i></button>
+            </div>
+            <div class="grocery-row">
+                <div class="row-left">
+                    <input type="checkbox" checked class="item-checkbox">
+                    <span class="item-name">Butter</span>
+                </div>
+                <span class="status purchased">Purchased</span>
+                <span class="date">16 May</span>
+                <button class="delete-btn"><i class="fa fa-trash"></i></button>
+            </div>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
