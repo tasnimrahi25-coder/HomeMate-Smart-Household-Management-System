@@ -203,6 +203,8 @@ HomeMate/
 7. Assign **chores** to family members and track completion.
 8. Add **appliance maintenance** and **bills** with due dates to receive reminders.
 
+In the current browser prototype, the dashboard and feature pages link to one another. Low-stock dashboard items and recipe ingredients can be added to the grocery list, which is saved in browser storage. The login/register screen is a UI demo only; authentication is not connected.
+
 
 
 ## 👥 Team Members & Responsibilities

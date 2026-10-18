@@ -11,6 +11,14 @@ function togglePass(id) {
 }
 
 function handleSubmit(mode) {
-  alert(mode === 'login' ? 'Logging in...' : 'Account created!');
+  if (mode === 'register') {
+    const password = document.getElementById('regPass');
+    const confirmation = document.getElementById('confirmPass');
+    confirmation.setCustomValidity(password.value === confirmation.value ? '' : 'Passwords do not match.');
+    if (!confirmation.reportValidity()) return false;
+    return false;
+  }
+
+  window.location.href = '../Dashboard/index.html';
   return false;
 }

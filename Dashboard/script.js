@@ -25,12 +25,15 @@ function closeSidebar() {
 updateGreeting();
 
 addStockButton.addEventListener("click", () => {
+    const lowStockItems = [...document.querySelectorAll("#stock-list .item-row span:first-child")]
+        .map((item) => item.textContent.trim());
+    const addedCount = window.HomeMateData.addGroceries(lowStockItems);
     document.querySelectorAll("#stock-list .item-row").forEach((row) => {
         row.classList.add("on-list");
     });
-    addStockButton.textContent = "Added";
-    addStockButton.disabled = true;
-    stockFeedback.textContent = "Low-stock items marked for your grocery list.";
+    stockFeedback.textContent = addedCount
+        ? `${addedCount} low-stock item${addedCount === 1 ? "" : "s"} added to your grocery list.`
+        : "All low-stock items are already on your grocery list.";
 });
 
 menuButton.addEventListener("click", () => {

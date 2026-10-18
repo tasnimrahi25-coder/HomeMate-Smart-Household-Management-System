@@ -193,3 +193,42 @@ body {
 .delete-btn:hover {
     color: #ef4444;
 }
+
+.grocery-row[hidden] {
+    display: none;
+}
+
+.add-grocery-form {
+    display: flex;
+    gap: 10px;
+    margin: -10px 0 22px;
+}
+
+.add-grocery-form[hidden] {
+    display: none;
+}
+
+.add-grocery-form input {
+    flex: 1;
+    min-width: 0;
+    padding: 10px 12px;
+    border: 1px solid #cbd5e1;
+    border-radius: 6px;
+    font: inherit;
+}
+
+.visually-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    clip-path: inset(50%);
+}
+
+@media (max-width: 620px) {
+    .add-grocery-form {
+        flex-direction: column;
+    }
+}

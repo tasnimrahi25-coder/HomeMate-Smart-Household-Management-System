@@ -5,9 +5,21 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>HomeMate — Login / Register</title>
 <link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="../app-navigation.css">
 </head>
 <body>
 
+<nav class="hm-nav" aria-label="HomeMate features">
+  <a class="hm-nav-brand" href="../Dashboard/index.html">HomeMate</a>
+  <div class="hm-nav-links">
+    <a href="../Dashboard/index.html">Dashboard</a>
+    <a href="../grocery%20list/index.html">Groceries</a>
+    <a href="../Recipe_finder/index.html">Recipes</a>
+    <a href="../Budget_tracker/index.html">Budget</a>
+    <a href="../expense%20tracker/index2.html">Expenses</a>
+    <a href="../login-register/index.html" aria-current="page">Log in</a>
+  </div>
+</nav>
 <div class="card">
   <!-- Left -->
   <div class="brand">
@@ -47,7 +59,7 @@
     <!-- Login -->
     <form id="loginForm" onsubmit="return handleSubmit('login')">
       <h2>Welcome Back!</h2>
-      <p class="sub">Log in to your HomeMate account</p>
+      <p class="sub">Demo login: authentication is not connected yet.</p>
       <div class="field">
         <span class="icon">✉</span>
         <input class="has-icon" type="email" placeholder="Email address" required>
@@ -68,7 +80,7 @@
     <!-- Register -->
     <form id="registerForm" class="hidden" onsubmit="return handleSubmit('register')">
       <h2>Create Account</h2>
-      <p class="sub">Sign up to start managing your home</p>
+      <p class="sub">Authentication is not connected, so no account will be created.</p>
       <div class="field">
         <span class="icon">👤</span>
         <input class="has-icon" type="text" placeholder="Full name" required>
@@ -84,7 +96,7 @@
       </div>
       <div class="field">
         <span class="icon">🔒</span>
-        <input class="has-icon" type="password" placeholder="Confirm password" required>
+        <input class="has-icon" type="password" id="confirmPass" placeholder="Confirm password" required>
       </div>
       <button class="btn" type="submit">Register</button>
       <p class="switch">Already have an account? <a href="#" onclick="show('login');return false">Login</a></p>

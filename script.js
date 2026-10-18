@@ -10,13 +10,12 @@ import {
 } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyDjGiCtqfhjrV63QghXjQmZsNzR6HzY1cc",
-  authDomain: "homemate-b52d6.firebaseapp.com",
-  projectId: "homemate-b52d6",
-  storageBucket: "homemate-b52d6.firebasestorage.app",
-  messagingSenderId: "34172977033",
-  appId: "1:34172977033:web:a8f0b4147e3f233e426b58",
-  measurementId: "G-ZNKXVZ86KV"
+  apiKey: "AIzaSyBeg6raQxwcpfPiMLuYJc7Z5OFgFcwy9w4",
+  authDomain: "homemate-52d86.firebaseapp.com",
+  projectId: "homemate-52d86",
+  storageBucket: "homemate-52d86.firebasestorage.app",
+  messagingSenderId: "659914419939",
+  appId: "1:659914419939:web:a1eb64c040d93c9c989fd6"
 };
 
 const app = initializeApp(firebaseConfig);

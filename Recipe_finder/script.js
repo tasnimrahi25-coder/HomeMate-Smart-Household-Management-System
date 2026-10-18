@@ -264,12 +264,14 @@ modal.addEventListener("click", (e) => {
 
 function displayRecipeDetails(recipe) {
     const ingredients = [];
+    const ingredientNames = [];
 
     for (let i = 1; i <= 20; i++) {
         const ingredient = recipe[`strIngredient${i}`]?.trim();
         const measure = recipe[`strMeasure${i}`]?.trim();
 
         if (ingredient) {
+            ingredientNames.push(ingredient);
             ingredients.push(`<li>${measure ? `${measure} ` : ""}${ingredient}</li>`);
         } else {
             break;
@@ -300,10 +302,18 @@ function displayRecipeDetails(recipe) {
             <p><strong>Area:</strong> ${recipe.strArea || "N/A"}</p>
             <h3>Ingredients</h3>
             <ul>${ingredients.join("") || "<li>No ingredients listed.</li>"}</ul>
+            <button class="add-recipe-ingredients" type="button">Add ingredients to grocery list</button>
             <h3>Instructions</h3>
             <ol>${instructions}</ol>
             ${youtubeEmbed}
             ${sourceHTML}
         </div>
     `;
+
+    modalContent.querySelector(".add-recipe-ingredients").addEventListener("click", (event) => {
+        const addedCount = window.HomeMateData.addGroceries(ingredientNames);
+        event.currentTarget.textContent = addedCount
+            ? `${addedCount} ingredient${addedCount === 1 ? "" : "s"} added to grocery list`
+            : "All ingredients are already on your grocery list";
+    });
 }
