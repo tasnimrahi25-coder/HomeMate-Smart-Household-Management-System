@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Budget Tracker Pro</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <div class="dashboard-container">
+    
+    <div class="panel-card">
+      <a class="home-link" href="../Dashboard/index.html">&larr; HomeMate dashboard</a>
+      <div class="app-title">💰 Budget Tracker Pro</div>
+      <div class="balance-display">Balance: <span id="balance">0.00 taka</span></div>
+      
+      <form id="transactionForm" class="input-form" autocomplete="off">
+        <input type="text" id="description" class="form-control" placeholder="Transaction Description" required autocomplete="off">
+        <input type="number" id="amount" class="form-control" placeholder="Amount" step="any" min="0" required autocomplete="new-password">
+        <select id="type" class="form-control">
+          <option value="income">💵 Income</option>
+          <option value="expense">📉 Expense</option>
+        </select>
+        <button type="submit" class="submit-button">Add Transaction</button>
+      </form>
+    </div>
+
+    <div class="panel-card">
+      <div class="panel-title">Transactions</div>
+      <div id="transactionList" class="list-container"></div>
+    </div>
+
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
