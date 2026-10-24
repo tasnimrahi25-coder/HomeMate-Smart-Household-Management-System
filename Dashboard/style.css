@@ -1800,3 +1800,27 @@ body.dark-theme {
         grid-template-columns: repeat(2, minmax(0, 1fr));
     }
 }
+
+/* Shared live-data additions */
+.category-icon.bill-category {
+    background: var(--blue-soft);
+    color: var(--blue);
+}
+
+#top-categories .category-row:first-of-type {
+    margin-top: 8px;
+}
+
+#pending-groceries:empty,
+#recent-expenses:empty {
+    display: none;
+}
+
+.hm-dashboard .welcome-row .eyebrow {
+    display: block;
+    margin-bottom: 6px;
+}
+
+.hm-dashboard .welcome-row .primary-button {
+    flex: 0 0 auto;
+}
