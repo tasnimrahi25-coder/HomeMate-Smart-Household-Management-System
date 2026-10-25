@@ -3,63 +3,199 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>HomeMate - Pantry Manager</title>
-  <link rel="stylesheet" href="style.css">
+  <meta name="theme-color" content="#f6f8f6">
+  <title>HomeMate — Smart Household Management</title>
+  <meta name="description" content="HomeMate brings groceries, budgets, expenses and your household dashboard together in one connected place.">
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
   <link rel="stylesheet" href="app-navigation.css">
 </head>
-<body>
+<body class="hm-landing" data-page="home">
 
-  <nav class="hm-nav" aria-label="HomeMate features">
-    <a class="hm-nav-brand" href="Dashboard/index.html">HomeMate</a>
-    <div class="hm-nav-links">
-      <a href="Dashboard/index.html">Dashboard</a>
-      <a href="grocery%20list/index.html">Groceries</a>
-      <a href="Recipe_finder/index.html">Recipes</a>
-      <a href="Budget_tracker/index.html">Budget</a>
-      <a href="expense%20tracker/index2.html">Expenses</a>
-      <a href="login-register/index.html">Log in</a>
+  <header class="hm-nav" data-hm-nav>
+    <div class="hm-nav__inner">
+      <a class="hm-nav__brand" href="index.html" aria-label="HomeMate home">
+        <span class="hm-nav__logo" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M3 10.5 12 3l9 7.5"/><path d="M5 9.5V21h14V9.5"/><path d="M9 21v-6h6v6"/>
+          </svg>
+        </span>
+        <span>Home<span>Mate</span></span>
+      </a>
+
+      <button class="hm-nav__toggle" type="button" data-nav-toggle aria-expanded="false" aria-controls="hm-nav-links" aria-label="Toggle navigation">
+        <span></span><span></span><span></span>
+      </button>
+
+      <nav class="hm-nav__links" id="hm-nav-links" data-nav-links aria-label="Primary navigation">
+        <a href="dashboard/index.html" data-nav="dashboard">Dashboard</a>
+        <a href="grocery%20list/index.html" data-nav="grocery">Grocery</a>
+        <a href="Budget_trecker/index.html" data-nav="budget">Budget</a>
+        <a href="expense%20trecker/index2.html" data-nav="expenses">Expenses</a>
+      </nav>
+
+      <div class="hm-nav__account">
+        <span class="hm-nav__user" data-nav-user hidden>
+          <span class="hm-nav__avatar" data-nav-avatar>U</span>
+          <span class="hm-nav__name" data-nav-name>Account</span>
+        </span>
+        <a class="hm-nav__auth" href="login-register/index.html" data-nav-auth>Sign in</a>
+        <button class="hm-nav__logout" type="button" data-nav-logout hidden>Log out</button>
+      </div>
     </div>
-  </nav>
-  <div class="container">
-    <a class="home-link" href="Dashboard/index.html">&larr; HomeMate dashboard</a>
-    <h2>🏠 HomeMate Pantry</h2>
+  </header>
 
-    <div>
-      <h3>Add New Item</h3>
-      <div class="form-group">
-        <input type="text" id="itemName" placeholder="Item Name (e.g., Milk)">
-      </div>
-      <div class="form-group">
-        <input type="text" id="itemQuantity" placeholder="Quantity (e.g., 2)">
-      </div>
-      <div class="form-group">
-        <input type="text" id="itemUnit" placeholder="Unit (e.g., Liters)">
-      </div>
-      <div class="form-group">
-        <input type="text" id="expiryDate" placeholder="Expiry Date / Days (e.g., 7)">
-      </div>
-      <button id="addBtn">Save Item</button>
-    </div>
+  <main class="hm-landing-main">
+    <section class="hm-hero">
+      <div class="hm-hero__content">
+        <span class="hm-eyebrow">Smart household management</span>
+        <h1>One calm place for your <span>whole home.</span></h1>
+        <p class="hm-hero__lead">
+          HomeMate connects your grocery list, budget, expenses and dashboard, so one action
+          updates everything. Buy milk once, record the expense once, and see your budget
+          reflect it instantly.
+        </p>
 
-    <hr style="margin: 20px 0;">
+        <div class="hm-hero__actions">
+          <a class="hm-btn hm-btn--primary" href="login-register/index.html" data-landing-primary>Create your account</a>
+          <a class="hm-btn hm-btn--outline" href="dashboard/index.html" data-landing-secondary>Explore the dashboard</a>
+        </div>
 
-    <h3>Pantry Items List</h3>
-    <table>
-      <thead>
-        <tr>
-          <th>Name</th>
-          <th>Quantity</th>
-          <th>Unit</th>
-          <th>Expiry</th>
-          <th>Actions</th>
-        </tr>
-      </thead>
-      <tbody id="pantryTableBody">
-        <tr><td colspan="5">Loading data...</td></tr>
-      </tbody>
-    </table>
-  </div>
+        <div class="hm-hero__meta">
+          <span>Firebase secured</span>
+          <span>Live data across modules</span>
+          <span data-landing-status>Free household account</span>
+        </div>
+      </div>
 
-  <script type="module" src="script.js"></script>
+      <div class="hm-preview" aria-label="HomeMate dashboard preview">
+        <div class="hm-preview__head">
+          <span class="hm-preview__title">This month at home</span>
+          <span class="hm-preview__chip">Live</span>
+        </div>
+
+        <div class="hm-preview__stats">
+          <div class="hm-preview__stat">
+            <small>Monthly budget</small>
+            <strong>৳ 8,000</strong>
+          </div>
+          <div class="hm-preview__stat is-accent">
+            <small>Spent so far</small>
+            <strong>৳ 5,240</strong>
+          </div>
+        </div>
+
+        <div class="hm-preview__list">
+          <div class="hm-preview__row">
+            <span class="hm-preview__dot"></span>
+            Grocery purchase synced
+            <strong>Just now</strong>
+          </div>
+          <div class="hm-preview__row">
+            <span class="hm-preview__dot is-warm"></span>
+            3 items still pending
+            <strong>Shopping list</strong>
+          </div>
+          <div class="hm-preview__row">
+            <span class="hm-preview__dot"></span>
+            Food expense recorded
+            <strong>৳ 640</strong>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="hm-section" aria-labelledby="features-title">
+      <div class="hm-section__head">
+        <h2 id="features-title">Everything connected</h2>
+        <p>Each module shares the same Firebase account and data, so nothing has to be entered twice.</p>
+      </div>
+
+      <div class="hm-feature-grid">
+        <a class="hm-feature" href="dashboard/index.html">
+          <span class="hm-feature__icon" aria-hidden="true">▦</span>
+          <h3>Dashboard</h3>
+          <p>Your budget, pending groceries and latest expenses in one live overview.</p>
+          <span class="hm-feature__link">Open dashboard →</span>
+        </a>
+
+        <a class="hm-feature" href="grocery%20list/index.html">
+          <span class="hm-feature__icon" aria-hidden="true">🛒</span>
+          <h3>Grocery list</h3>
+          <p>Add items, tick them off, and turn purchases into real expenses automatically.</p>
+          <span class="hm-feature__link">Open grocery list →</span>
+        </a>
+
+        <a class="hm-feature" href="Budget_trecker/index.html">
+          <span class="hm-feature__icon" aria-hidden="true">◔</span>
+          <h3>Budget tracker</h3>
+          <p>Log income and expenses, set your monthly budget and watch what remains.</p>
+          <span class="hm-feature__link">Open budget tracker →</span>
+        </a>
+
+        <a class="hm-feature" href="expense%20trecker/index2.html">
+          <span class="hm-feature__icon" aria-hidden="true">৳</span>
+          <h3>Expense tracker</h3>
+          <p>See spending by category with a live breakdown and a running monthly total.</p>
+          <span class="hm-feature__link">Open expense tracker →</span>
+        </a>
+
+        <a class="hm-feature" href="login-register/index.html">
+          <span class="hm-feature__icon" aria-hidden="true">◍</span>
+          <h3>Private account</h3>
+          <p>Email sign-up and login through Firebase Auth keeps every household separate.</p>
+          <span class="hm-feature__link">Sign in securely →</span>
+        </a>
+
+        <a class="hm-feature" href="grocery%20list/index.html">
+          <span class="hm-feature__icon" aria-hidden="true">↻</span>
+          <h3>One shared database</h3>
+          <p>A grocery purchase, budget entry and dashboard total always stay in sync.</p>
+          <span class="hm-feature__link">See it in action →</span>
+        </a>
+      </div>
+    </section>
+
+    <section class="hm-section" aria-labelledby="flow-title">
+      <div class="hm-section__head">
+        <h2 id="flow-title">How data flows</h2>
+        <p>HomeMate is not a set of separate tools. The modules hand work to each other.</p>
+      </div>
+
+      <div class="hm-flow">
+        <div class="hm-flow__step">
+          <span>1</span>
+          <strong>Add to the grocery list</strong>
+          <small>Plan what the household needs and set an optional price.</small>
+        </div>
+        <div class="hm-flow__step">
+          <span>2</span>
+          <strong>Tick it as purchased</strong>
+          <small>The purchase is written to your shared expense collection.</small>
+        </div>
+        <div class="hm-flow__step">
+          <span>3</span>
+          <strong>Budget updates</strong>
+          <small>The budget tracker recalculates spending and remaining balance.</small>
+        </div>
+        <div class="hm-flow__step">
+          <span>4</span>
+          <strong>Dashboard reflects it</strong>
+          <small>Totals, categories and pending items refresh in real time.</small>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="hm-landing-footer">
+    <span>HomeMate · Built with HTML, CSS, JavaScript and Firebase.</span>
+    <a href="login-register/index.html">Get started →</a>
+  </footer>
+
+  <script type="module" src="nav.js"></script>
+  <script type="module" src="landing.js"></script>
 </body>
 </html>

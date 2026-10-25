@@ -3,36 +3,123 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Budget Tracker Pro</title>
+  <meta name="theme-color" content="#f3f7fa">
+  <title>HomeMate | Budget tracker</title>
+  <link rel="icon" type="image/svg+xml" href="../favicon.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../styles.css">
   <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="../app-navigation.css">
 </head>
-<body>
+<body class="hm-budget" data-page="budget">
 
-  <div class="dashboard-container">
-    
-    <div class="panel-card">
-      <a class="home-link" href="../Dashboard/index.html">&larr; HomeMate dashboard</a>
-      <div class="app-title">💰 Budget Tracker Pro</div>
-      <div class="balance-display">Balance: <span id="balance">0.00 taka</span></div>
-      
-      <form id="transactionForm" class="input-form" autocomplete="off">
-        <input type="text" id="description" class="form-control" placeholder="Transaction Description" required autocomplete="off">
-        <input type="number" id="amount" class="form-control" placeholder="Amount" step="any" min="0" required autocomplete="new-password">
-        <select id="type" class="form-control">
-          <option value="income">💵 Income</option>
-          <option value="expense">📉 Expense</option>
-        </select>
-        <button type="submit" class="submit-button">Add Transaction</button>
+  <header class="hm-nav" data-hm-nav>
+    <div class="hm-nav__inner">
+      <a class="hm-nav__brand" href="../index.html" aria-label="HomeMate home">
+        <span class="hm-nav__logo" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M3 10.5 12 3l9 7.5"/><path d="M5 9.5V21h14V9.5"/><path d="M9 21v-6h6v6"/>
+          </svg>
+        </span>
+        <span>Home<span>Mate</span></span>
+      </a>
+
+      <button class="hm-nav__toggle" type="button" data-nav-toggle aria-expanded="false" aria-controls="hm-nav-links" aria-label="Toggle navigation">
+        <span></span><span></span><span></span>
+      </button>
+
+      <nav class="hm-nav__links" id="hm-nav-links" data-nav-links aria-label="Primary navigation">
+        <a href="../dashboard/index.html" data-nav="dashboard">Dashboard</a>
+        <a href="../grocery%20list/index.html" data-nav="grocery">Grocery</a>
+        <a href="../Budget_trecker/index.html" data-nav="budget">Budget</a>
+        <a href="../expense%20trecker/index2.html" data-nav="expenses">Expenses</a>
+      </nav>
+
+      <div class="hm-nav__account">
+        <span class="hm-nav__user" data-nav-user hidden>
+          <span class="hm-nav__avatar" data-nav-avatar>U</span>
+          <span class="hm-nav__name" data-nav-name>Account</span>
+        </span>
+        <a class="hm-nav__auth" href="../login-register/index.html" data-nav-auth>Sign in</a>
+        <button class="hm-nav__logout" type="button" data-nav-logout hidden>Log out</button>
+      </div>
+    </div>
+  </header>
+
+  <main class="dashboard-container">
+    <section class="panel-card">
+      <div class="app-title">💰 Budget Tracker</div>
+      <p class="app-copy">Income and expenses here are shared with the expense tracker and dashboard.</p>
+
+      <div class="balance-display">
+        <span class="balance-label">Current balance</span>
+        <span id="balance">৳ 0</span>
+      </div>
+
+      <div class="money-strip" aria-label="Budget summary">
+        <div>
+          <span>Income</span>
+          <strong id="incomeTotal">৳ 0</strong>
+        </div>
+        <div>
+          <span>Expenses</span>
+          <strong id="expenseTotal">৳ 0</strong>
+        </div>
+        <div>
+          <span>Budget left this month</span>
+          <strong id="budgetRemaining">৳ 0</strong>
+        </div>
+      </div>
+
+      <form id="budgetForm" class="budget-form" autocomplete="off">
+        <label for="monthlyBudget">Monthly budget</label>
+        <div class="budget-row">
+          <input type="number" id="monthlyBudget" class="form-control" placeholder="e.g. 8000" min="0" step="1" inputmode="decimal">
+          <button type="submit" class="small-button">Save budget</button>
+        </div>
+        <p class="form-message" id="budgetMessage" role="status" aria-live="polite"></p>
       </form>
-    </div>
 
-    <div class="panel-card">
-      <div class="panel-title">Transactions</div>
-      <div id="transactionList" class="list-container"></div>
-    </div>
+      <form id="transactionForm" class="input-form" autocomplete="off">
+        <input type="text" id="description" class="form-control" placeholder="Transaction description" maxlength="80" required>
 
-  </div>
+        <input type="number" id="amount" class="form-control" placeholder="Amount (৳)" step="any" min="0" inputmode="decimal" required>
 
-  <script src="script.js"></script>
+        <div class="form-pair">
+          <select id="type" class="form-control" aria-label="Transaction type">
+            <option value="income">💵 Income</option>
+            <option value="expense">📉 Expense</option>
+          </select>
+
+          <select id="category" class="form-control" aria-label="Expense category">
+            <option value="Food">Food</option>
+            <option value="Grocery" selected>Grocery</option>
+            <option value="Bills">Bills</option>
+            <option value="Others">Others</option>
+          </select>
+        </div>
+
+        <input type="date" id="transactionDate" class="form-control" aria-label="Transaction date">
+
+        <p class="form-message" id="transactionMessage" role="status" aria-live="polite"></p>
+        <button type="submit" class="submit-button" id="addTransactionButton">Add Transaction</button>
+      </form>
+    </section>
+
+    <section class="panel-card">
+      <div class="panel-heading-row">
+        <div class="panel-title">Transactions</div>
+        <a class="hm-btn hm-btn--ghost hm-btn--sm" href="../expense%20trecker/index2.html">Expense breakdown</a>
+      </div>
+
+      <div id="transactionList" class="list-container" aria-live="polite"></div>
+      <p class="empty-state" id="transactionEmpty" hidden>No transactions yet. Add your first income or expense on the left.</p>
+    </section>
+  </main>
+
+  <script type="module" src="../nav.js"></script>
+  <script type="module" src="script.js"></script>
 </body>
 </html>

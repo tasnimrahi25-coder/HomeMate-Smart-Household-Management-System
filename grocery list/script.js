@@ -1,110 +1,283 @@
-const searchInput = document.getElementById('search-input');
-const listContainer = document.getElementById('list-container');
-const addForm = document.getElementById('add-grocery-form');
-const addFormButton = document.getElementById('show-add-form');
-const newGroceryName = document.getElementById('new-grocery-name');
+import {
+  requireAuth,
+  watchGroceries,
+  addGrocery,
+  updateGrocery,
+  deleteGrocery,
+  addExpense,
+  deleteExpense,
+  formatTaka,
+  todayISO
+} from "../firebase.js";
 
-function renderGroceries() {
-    const groceries = window.HomeMateData.getGroceries();
-    listContainer.replaceChildren();
+const user = await requireAuth();
 
-    groceries.forEach((item) => {
-        const row = document.createElement('div');
-        row.className = 'grocery-row';
+if (user) {
+  init(user);
+}
 
-        const left = document.createElement('div');
-        left.className = 'row-left';
-        const checkbox = document.createElement('input');
-        checkbox.type = 'checkbox';
-        checkbox.className = 'item-checkbox';
-        checkbox.checked = item.purchased;
-        checkbox.setAttribute('aria-label', `Mark ${item.name} as purchased`);
-        const name = document.createElement('span');
-        name.className = 'item-name';
-        name.textContent = item.name;
-        left.append(checkbox, name);
+function init(currentUser) {
+  const form = document.getElementById("groceryForm");
+  const nameInput = document.getElementById("groceryName");
+  const priceInput = document.getElementById("groceryPrice");
+  const dateInput = document.getElementById("groceryDate");
+  const addButton = document.getElementById("addGroceryButton");
+  const searchInput = document.getElementById("search-input");
+  const listElement = document.getElementById("groceryList");
+  const emptyElement = document.getElementById("groceryEmpty");
+  const messageElement = document.getElementById("groceryMessage");
+  const totalElement = document.getElementById("total-count");
+  const purchasedElement = document.getElementById("purchased-count");
+  const remainingElement = document.getElementById("remaining-count");
+  const avatarElement = document.getElementById("user-avatar");
 
-        const status = document.createElement('span');
-        status.className = `status ${item.purchased ? 'purchased' : 'pending'}`;
-        status.textContent = item.purchased ? 'Purchased' : 'Pending';
-        const date = document.createElement('span');
-        date.className = 'date';
-        date.textContent = item.date;
-        const deleteButton = document.createElement('button');
-        deleteButton.type = 'button';
-        deleteButton.className = 'delete-btn';
-        deleteButton.setAttribute('aria-label', `Delete ${item.name}`);
-        deleteButton.innerHTML = '<i class="fa fa-trash" aria-hidden="true"></i>';
+  const state = {
+    items: [],
+    search: ""
+  };
 
-        row.dataset.id = item.id;
-        row.append(left, status, date, deleteButton);
-        listContainer.append(row);
+  dateInput.value = todayISO();
+
+  const displayName = currentUser.displayName || currentUser.email?.split("@")[0] || "U";
+  avatarElement.textContent = displayName
+    .split(/\s+/)
+    .filter(Boolean)
+    .slice(0, 2)
+    .map((part) => part[0].toUpperCase())
+    .join("") || "U";
+
+  function setMessage(text, type = "") {
+    messageElement.textContent = text;
+    messageElement.className = `form-message${type ? ` is-${type}` : ""}`;
+  }
+
+  function formatDate(value) {
+    if (!value) return "No date";
+    const date = new Date(`${value}T00:00:00`);
+    if (Number.isNaN(date.getTime())) return value;
+    return new Intl.DateTimeFormat(undefined, { day: "numeric", month: "short" }).format(date);
+  }
+
+  function sortItems(items) {
+    return [...items].sort((a, b) => {
+      if (a.status !== b.status) return a.status === "pending" ? -1 : 1;
+      return String(a.date || "").localeCompare(String(b.date || ""));
     });
+  }
 
-    applySearch();
-    updateCounts(groceries);
-}
+  function updateStats() {
+    const total = state.items.length;
+    const purchased = state.items.filter((item) => item.status === "purchased").length;
+    totalElement.textContent = total;
+    purchasedElement.textContent = purchased;
+    remainingElement.textContent = total - purchased;
+  }
 
-function updateCounts(items) {
-    const purchased = items.filter((item) => item.purchased).length;
-    document.getElementById('total-count').textContent = items.length;
-    document.getElementById('purchased-count').textContent = purchased;
-    document.getElementById('remaining-count').textContent = items.length - purchased;
-}
+  function createRow(item) {
+    const row = document.createElement("div");
+    row.className = `grocery-row${item.status === "purchased" ? " is-purchased" : ""}`;
 
-function applySearch() {
-    const term = searchInput.value.trim().toLowerCase();
-    listContainer.querySelectorAll('.grocery-row').forEach((row) => {
-        row.hidden = !row.querySelector('.item-name').textContent.toLowerCase().includes(term);
-    });
-}
+    const left = document.createElement("div");
+    left.className = "row-left";
 
-listContainer.addEventListener('change', (event) => {
-    if (!event.target.matches('.item-checkbox')) return;
-    const row = event.target.closest('.grocery-row');
-    const groceries = window.HomeMateData.getGroceries();
-    const item = groceries.find((entry) => entry.id === row.dataset.id);
+    const checkbox = document.createElement("input");
+    checkbox.type = "checkbox";
+    checkbox.className = "item-checkbox";
+    checkbox.dataset.id = item.id;
+    checkbox.checked = item.status === "purchased";
+    checkbox.setAttribute("aria-label", `Mark ${item.name} as ${checkbox.checked ? "pending" : "purchased"}`);
+
+    const text = document.createElement("div");
+    text.className = "item-text";
+
+    const name = document.createElement("span");
+    name.className = "item-name";
+    name.textContent = item.name;
+
+    const meta = document.createElement("span");
+    meta.className = "item-meta";
+    meta.textContent = Number(item.price) > 0 ? formatTaka(item.price) : "No price recorded";
+
+    text.append(name, meta);
+    left.append(checkbox, text);
+
+    const status = document.createElement("span");
+    const isPurchased = item.status === "purchased";
+    status.className = `status ${isPurchased ? "purchased" : "pending"}`;
+    status.textContent = isPurchased ? "Purchased" : "Pending";
+
+    const date = document.createElement("span");
+    date.className = "date";
+    date.textContent = formatDate(item.date);
+
+    const remove = document.createElement("button");
+    remove.type = "button";
+    remove.className = "delete-btn";
+    remove.dataset.delete = item.id;
+    remove.setAttribute("aria-label", `Delete ${item.name}`);
+    remove.innerHTML = '<i class="fa fa-trash" aria-hidden="true"></i>';
+
+    row.append(left, status, date, remove);
+    return row;
+  }
+
+  function render() {
+    const term = state.search.trim().toLowerCase();
+    const visible = state.items.filter((item) => item.name.toLowerCase().includes(term));
+
+    listElement.innerHTML = "";
+    visible.forEach((item) => listElement.appendChild(createRow(item)));
+
+    if (state.items.length === 0) {
+      emptyElement.hidden = false;
+      emptyElement.textContent = "Your list is empty. Add the first item above, or let a recipe send ingredients here.";
+    } else if (visible.length === 0) {
+      emptyElement.hidden = false;
+      emptyElement.textContent = `No items match “${state.search}”.`;
+    } else {
+      emptyElement.hidden = true;
+    }
+
+    updateStats();
+  }
+
+  watchGroceries(
+    (items) => {
+      state.items = sortItems(items);
+      render();
+    },
+    (error) => {
+      console.error(error);
+      setMessage("Could not load groceries. Check your Firestore rules and connection.", "error");
+    }
+  );
+
+  form.addEventListener("submit", async (event) => {
+    event.preventDefault();
+
+    const name = nameInput.value.trim();
+    const price = priceInput.value;
+    const date = dateInput.value || todayISO();
+
+    if (!name) {
+      setMessage("Please enter an item name.", "error");
+      nameInput.focus();
+      return;
+    }
+
+    addButton.disabled = true;
+    setMessage("");
+
+    try {
+      await addGrocery({ name, price: Number(price) || 0, date });
+      form.reset();
+      dateInput.value = todayISO();
+      nameInput.focus();
+      setMessage(`“${name}” was added to your list.`, "success");
+    } catch (error) {
+      console.error(error);
+      setMessage(error.message || "Could not add the item.", "error");
+    } finally {
+      addButton.disabled = false;
+    }
+  });
+
+  searchInput.addEventListener("input", () => {
+    state.search = searchInput.value;
+    render();
+  });
+
+  listElement.addEventListener("change", async (event) => {
+    const checkbox = event.target.closest(".item-checkbox");
+    if (!checkbox) return;
+
+    const item = state.items.find((entry) => entry.id === checkbox.dataset.id);
     if (!item) return;
 
-    item.purchased = event.target.checked;
-    window.HomeMateData.saveGroceries(groceries);
-    renderGroceries();
+    const purchased = checkbox.checked;
+    checkbox.disabled = true;
+    setMessage("");
 
-});
+    let createdExpenseId = null;
 
-listContainer.addEventListener('click', (event) => {
-    const button = event.target.closest('.delete-btn');
-    if (!button) return;
-    const row = button.closest('.grocery-row');
-    const groceries = window.HomeMateData.getGroceries().filter((item) => item.id !== row.dataset.id);
-    window.HomeMateData.saveGroceries(groceries);
-    renderGroceries();
-});
+    try {
+      if (purchased) {
+        // Record the purchase once, then mark the item so a reload cannot double-count it.
+        if (Number(item.price) > 0 && !item.expenseLogged) {
+          createdExpenseId = await addExpense({
+            title: `Grocery: ${item.name}`,
+            category: "Grocery",
+            amount: Number(item.price),
+            date: item.date || todayISO(),
+            source: "grocery"
+          });
+        }
 
-searchInput.addEventListener('input', applySearch);
-addFormButton.addEventListener('click', () => {
-    addForm.hidden = !addForm.hidden;
-    if (!addForm.hidden) newGroceryName.focus();
-});
+        await updateGrocery(item.id, {
+          status: "purchased",
+          ...(createdExpenseId ? { expenseLogged: true, expenseId: createdExpenseId } : {})
+        });
 
-addForm.addEventListener('submit', (event) => {
-    event.preventDefault();
-    const itemName = newGroceryName.value.trim();
-    if (!itemName) return;
-    const addedCount = window.HomeMateData.addGroceries([itemName]);
-    if (!addedCount) {
-        newGroceryName.setCustomValidity('This item is already on your list.');
-        newGroceryName.reportValidity();
-        newGroceryName.addEventListener('input', () => newGroceryName.setCustomValidity(''), { once: true });
-        return;
+        if (createdExpenseId) {
+          setMessage(`“${item.name}” purchased. ${formatTaka(item.price)} added to expenses.`, "success");
+        }
+      } else {
+        // Un-ticking a purchase should also withdraw the expense it created.
+        if (item.expenseId) {
+          await deleteExpense(item.expenseId);
+        }
+
+        await updateGrocery(item.id, {
+          status: "pending",
+          expenseLogged: false,
+          expenseId: null
+        });
+
+        if (item.expenseId) {
+          setMessage(`“${item.name}” is pending again. ${formatTaka(item.price)} removed from expenses.`, "success");
+        }
+      }
+    } catch (error) {
+      console.error(error);
+      if (createdExpenseId) {
+        try {
+          await deleteExpense(createdExpenseId);
+        } catch (cleanupError) {
+          console.error(cleanupError);
+        }
+      }
+      checkbox.checked = !purchased;
+      setMessage(error.message || "Could not update the item.", "error");
+    } finally {
+      checkbox.disabled = false;
     }
-    addForm.reset();
-    addForm.hidden = true;
-    renderGroceries();
-});
+  });
 
-window.addEventListener('storage', (event) => {
-    if (event.key === 'homemate.groceries') renderGroceries();
-});
+  listElement.addEventListener("click", async (event) => {
+    const button = event.target.closest("[data-delete]");
+    if (!button) return;
 
-renderGroceries();
+    const item = state.items.find((entry) => entry.id === button.dataset.delete);
+    if (!item) return;
+
+    button.disabled = true;
+    try {
+      await deleteGrocery(item.id);
+
+      // Keep the shared expense collection in sync when a purchase is removed.
+      if (item.expenseId) {
+        try {
+          await deleteExpense(item.expenseId);
+        } catch (expenseError) {
+          console.error(expenseError);
+        }
+      }
+
+      setMessage(`“${item.name}” was removed.`, "success");
+    } catch (error) {
+      console.error(error);
+      button.disabled = false;
+      setMessage("Could not delete the item. Please try again.", "error");
+    }
+  });
+}

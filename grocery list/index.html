@@ -3,68 +3,120 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Grocery Management</title>
-    <link rel="stylesheet" href="style.css">
+    <meta name="theme-color" content="#f8fafc">
+    <title>HomeMate | Grocery list</title>
+    <link rel="icon" type="image/svg+xml" href="../favicon.svg">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="../styles.css">
+    <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="../app-navigation.css">
 </head>
-<body>
+<body class="hm-grocery" data-page="grocery">
 
-    <nav class="hm-nav" aria-label="HomeMate features">
-        <a class="hm-nav-brand" href="../Dashboard/index.html">HomeMate</a>
-        <div class="hm-nav-links">
-            <a href="../Dashboard/index.html">Dashboard</a>
-            <a href="../grocery%20list/index.html" aria-current="page">Groceries</a>
-            <a href="../Recipe_finder/index.html">Recipes</a>
-            <a href="../Budget_tracker/index.html">Budget</a>
-            <a href="../expense%20tracker/index2.html">Expenses</a>
-            <a href="../login-register/index.html">Log in</a>
+    <header class="hm-nav" data-hm-nav>
+        <div class="hm-nav__inner">
+            <a class="hm-nav__brand" href="../index.html" aria-label="HomeMate home">
+                <span class="hm-nav__logo" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M3 10.5 12 3l9 7.5"/><path d="M5 9.5V21h14V9.5"/><path d="M9 21v-6h6v6"/>
+                    </svg>
+                </span>
+                <span>Home<span>Mate</span></span>
+            </a>
+
+            <button class="hm-nav__toggle" type="button" data-nav-toggle aria-expanded="false" aria-controls="hm-nav-links" aria-label="Toggle navigation">
+                <span></span><span></span><span></span>
+            </button>
+
+            <nav class="hm-nav__links" id="hm-nav-links" data-nav-links aria-label="Primary navigation">
+                <a href="../dashboard/index.html" data-nav="dashboard">Dashboard</a>
+                <a href="../grocery%20list/index.html" data-nav="grocery">Grocery</a>
+                <a href="../Budget_trecker/index.html" data-nav="budget">Budget</a>
+                <a href="../expense%20trecker/index2.html" data-nav="expenses">Expenses</a>
+            </nav>
+
+            <div class="hm-nav__account">
+                <span class="hm-nav__user" data-nav-user hidden>
+                    <span class="hm-nav__avatar" data-nav-avatar>U</span>
+                    <span class="hm-nav__name" data-nav-name>Account</span>
+                </span>
+                <a class="hm-nav__auth" href="../login-register/index.html" data-nav-auth>Sign in</a>
+                <button class="hm-nav__logout" type="button" data-nav-logout hidden>Log out</button>
+            </div>
         </div>
-    </nav>
-    <div class="container">
+    </header>
+
+    <main class="container">
+        <div class="page-heading">
+            <div>
+                <span class="eyebrow">Shopping made simple</span>
+                <h2>Grocery List</h2>
+                <p class="page-copy">Tick items as you buy them. If an item has a price, HomeMate records the purchase as an expense automatically.</p>
+            </div>
+            <a class="hm-btn hm-btn--ghost hm-btn--sm" href="../dashboard/index.html">
+                <i class="fa fa-table-columns" aria-hidden="true"></i> Dashboard
+            </a>
+        </div>
+
         <div class="top-bar">
             <div class="search-box">
-                <i class="fa fa-search"></i>
-                <input type="text" id="search-input" placeholder="Search grocery items...">
+                <i class="fa fa-search" aria-hidden="true"></i>
+                <input type="text" id="search-input" placeholder="Search grocery items..." aria-label="Search grocery items">
             </div>
-            <div class="user-area">
-                <span class="avatar">U</span>
+            <div class="user-area" aria-hidden="true">
+                <span class="avatar" id="user-avatar">U</span>
                 <i class="fa fa-bell"></i>
             </div>
         </div>
-        <div class="header-section">
-            <h2>Grocery List</h2>
-            <button class="add-btn" id="show-add-form" type="button"><i class="fa fa-plus"></i> Add Item</button>
-        </div>
-        <form class="add-grocery-form" id="add-grocery-form" hidden>
-            <label class="visually-hidden" for="new-grocery-name">Grocery item name</label>
-            <input id="new-grocery-name" type="text" maxlength="80" placeholder="What do you need?" required>
-            <button class="add-btn" type="submit">Save item</button>
-        </form>
+
         <div class="cards-box">
             <div class="card green">
                 <div>
                     <p>Total Items</p>
-                    <h3 id="total-count">8</h3>
+                    <h3 id="total-count">0</h3>
                 </div>
             </div>
             <div class="card blue">
                 <div>
                     <p>Purchased</p>
-                    <h3 id="purchased-count">4</h3>
+                    <h3 id="purchased-count">0</h3>
                 </div>
             </div>
             <div class="card orange">
                 <div>
                     <p>Remaining</p>
-                    <h3 id="remaining-count">4</h3>
+                    <h3 id="remaining-count">0</h3>
                 </div>
             </div>
         </div>
-        <div class="grocery-list" id="list-container">
-        </div>
-    </div>
-    <script src="../app-data.js"></script>
-    <script src="script.js"></script>
+
+        <form id="groceryForm" class="grocery-form" autocomplete="off">
+            <label class="hm-sr-only" for="groceryName">Item name</label>
+            <input id="groceryName" name="name" type="text" placeholder="Add an item, e.g. Milk" maxlength="80" required>
+
+            <label class="hm-sr-only" for="groceryPrice">Price in Taka (optional)</label>
+            <input id="groceryPrice" name="price" type="number" inputmode="decimal" min="0" step="0.01" placeholder="Price ৳ (optional)">
+
+            <label class="hm-sr-only" for="groceryDate">Date</label>
+            <input id="groceryDate" name="date" type="date">
+
+            <button class="add-btn" type="submit" id="addGroceryButton">
+                <i class="fa fa-plus" aria-hidden="true"></i> Add Item
+            </button>
+        </form>
+
+        <p class="form-message" id="groceryMessage" role="status" aria-live="polite"></p>
+
+        <div class="grocery-list" id="groceryList" aria-live="polite"></div>
+        <p class="empty-state" id="groceryEmpty" hidden>
+            Your list is empty. Add the first item above, or let a recipe send ingredients here.
+        </p>
+    </main>
+
+    <script type="module" src="../nav.js"></script>
+    <script type="module" src="script.js"></script>
 </body>
 </html>

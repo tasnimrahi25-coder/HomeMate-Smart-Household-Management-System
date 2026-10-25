@@ -3,49 +3,82 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Expense Tracking - HomeMate</title>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <meta name="theme-color" content="#f8fafc">
+  <title>HomeMate | Expense tracker</title>
+  <link rel="icon" type="image/svg+xml" href="../favicon.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  
+  <link rel="stylesheet" href="../styles.css">
   <link rel="stylesheet" href="style2.css">
+  <link rel="stylesheet" href="../app-navigation.css">
 </head>
-<body>
+<body class="hm-expenses" data-page="expenses">
 
-  <div class="main-wrapper">
-    <header class="topbar">
-      <div class="brand">
-        <i class="fa-solid fa-house"></i>
-        <span>HomeMate</span>
-      </div>
+  <header class="hm-nav" data-hm-nav>
+    <div class="hm-nav__inner">
+      <a class="hm-nav__brand" href="../index.html" aria-label="HomeMate home">
+        <span class="hm-nav__logo" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M3 10.5 12 3l9 7.5"/><path d="M5 9.5V21h14V9.5"/><path d="M9 21v-6h6v6"/>
+          </svg>
+        </span>
+        <span>Home<span>Mate</span></span>
+      </a>
 
-      <div class="search-box">
-        <i class="fa-solid fa-magnifying-glass"></i>
-        <input type="text" id="searchInput" placeholder="Search expenses..." onkeyup="filterCategories()">
-      </div>
+      <button class="hm-nav__toggle" type="button" data-nav-toggle aria-expanded="false" aria-controls="hm-nav-links" aria-label="Toggle navigation">
+        <span></span><span></span><span></span>
+      </button>
 
-      <div class="user-actions">
-        <button class="icon-btn" title="Notifications">
-          <i class="fa-regular fa-bell"></i>
-          <span class="badge"></span>
-        </button>
-        <div class="avatar">U</div>
+      <nav class="hm-nav__links" id="hm-nav-links" data-nav-links aria-label="Primary navigation">
+        <a href="../dashboard/index.html" data-nav="dashboard">Dashboard</a>
+        <a href="../grocery%20list/index.html" data-nav="grocery">Grocery</a>
+        <a href="../Budget_trecker/index.html" data-nav="budget">Budget</a>
+        <a href="../expense%20trecker/index2.html" data-nav="expenses">Expenses</a>
+      </nav>
+
+      <div class="hm-nav__account">
+        <span class="hm-nav__user" data-nav-user hidden>
+          <span class="hm-nav__avatar" data-nav-avatar>U</span>
+          <span class="hm-nav__name" data-nav-name>Account</span>
+        </span>
+        <a class="hm-nav__auth" href="../login-register/index.html" data-nav-auth>Sign in</a>
+        <button class="hm-nav__logout" type="button" data-nav-logout hidden>Log out</button>
       </div>
-    </header>
-    <main class="content">
+    </div>
+  </header>
+
+  <main class="main-wrapper">
+    <div class="content">
       <div class="page-header">
-        <h2>Expenses</h2>
-        <button class="btn-primary" onclick="openModal()">
-          <i class="fa-solid fa-plus"></i> Add Expense
-        </button>
+        <div>
+          <span class="eyebrow">Spending overview</span>
+          <h2>Expenses</h2>
+          <p class="page-copy">Every grocery purchase and budget entry lands here automatically.</p>
+        </div>
+
+        <div class="page-actions">
+          <div class="search-box">
+            <i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i>
+            <input type="text" id="searchInput" placeholder="Search categories..." aria-label="Search expense categories">
+          </div>
+          <button class="btn-primary" type="button" id="openExpenseModal">
+            <i class="fa-solid fa-plus" aria-hidden="true"></i> Add Expense
+          </button>
+        </div>
       </div>
+
       <div class="grid-2">
         <div class="card total-card">
-          <span class="card-subtitle">Total This Month</span>
-          <div class="amount" id="totalAmount">৳ 12,450</div>
+          <span class="card-subtitle">Total expenses</span>
+          <div class="amount" id="totalAmount">৳ 0</div>
+          <span class="total-note" id="expenseCount">No expenses recorded yet</span>
         </div>
+
         <div class="card chart-card">
-          <span class="card-title">Monthly Overview</span>
-          <div class="bar-chart">
+          <span class="card-title">Monthly overview</span>
+          <div class="bar-chart" aria-hidden="true">
             <div class="bar-item">
               <div class="bar-wrapper"><div class="bar-fill" style="height: 45%;"></div></div>
               <span>Jan</span>
@@ -67,12 +100,13 @@
               <span>May</span>
             </div>
             <div class="bar-item">
-              <div class="bar-wrapper"><div class="bar-fill" style="height: 60%;"></div></div>
-              <span>Jun</span>
+              <div class="bar-wrapper"><div class="bar-fill" id="currentMonthBar" style="height: 60%;"></div></div>
+              <span>Now</span>
             </div>
           </div>
         </div>
       </div>
+
       <div class="grid-2">
         <div class="card">
           <span class="card-title">Categories</span>
@@ -83,8 +117,8 @@
                 <span class="cat-name">Food</span>
               </div>
               <div class="cat-value">
-                <strong>৳ <span class="val-food">4,500</span></strong>
-                <span class="percentage">(36%)</span>
+                <strong>৳ <span class="val-food">0</span></strong>
+                <span class="percentage">(0%)</span>
               </div>
             </li>
             <li class="category-item" data-name="grocery">
@@ -93,8 +127,8 @@
                 <span class="cat-name">Grocery</span>
               </div>
               <div class="cat-value">
-                <strong>৳ <span class="val-grocery">3,200</span></strong>
-                <span class="percentage">(26%)</span>
+                <strong>৳ <span class="val-grocery">0</span></strong>
+                <span class="percentage">(0%)</span>
               </div>
             </li>
             <li class="category-item" data-name="bills">
@@ -103,8 +137,8 @@
                 <span class="cat-name">Bills</span>
               </div>
               <div class="cat-value">
-                <strong>৳ <span class="val-bills">2,750</span></strong>
-                <span class="percentage">(22%)</span>
+                <strong>৳ <span class="val-bills">0</span></strong>
+                <span class="percentage">(0%)</span>
               </div>
             </li>
             <li class="category-item" data-name="others">
@@ -113,52 +147,84 @@
                 <span class="cat-name">Others</span>
               </div>
               <div class="cat-value">
-                <strong>৳ <span class="val-others">2,000</span></strong>
-                <span class="percentage">(16%)</span>
+                <strong>৳ <span class="val-others">0</span></strong>
+                <span class="percentage">(0%)</span>
               </div>
             </li>
           </ul>
+          <p class="empty-note" id="categoryEmpty" hidden>No category spending yet.</p>
         </div>
+
         <div class="card donut-card">
           <div class="donut-chart" id="donutChart">
             <div class="donut-inner">
-              <div class="donut-amount" id="donutTotal">৳ 12,450</div>
+              <div class="donut-amount" id="donutTotal">৳ 0</div>
               <div class="donut-label">Total</div>
             </div>
           </div>
         </div>
       </div>
-    </main>
-  </div>
-  <div class="modal-overlay" id="expenseModal">
+
+      <div class="card recent-card">
+        <div class="recent-head">
+          <div>
+            <span class="card-title">Recent expenses</span>
+            <p class="recent-copy">Newest first · synced with the budget tracker</p>
+          </div>
+          <a class="hm-btn hm-btn--ghost hm-btn--sm" href="../Budget_trecker/index.html">Budget tracker</a>
+        </div>
+        <div class="expense-list" id="recentExpenses"></div>
+        <p class="empty-state" id="recentEmpty" hidden>No expenses yet. Use “Add Expense” to record your first one.</p>
+      </div>
+    </div>
+  </main>
+
+  <div class="modal-overlay" id="expenseModal" role="dialog" aria-modal="true" aria-labelledby="expenseModalTitle">
     <div class="modal-content">
       <div class="modal-header">
-        <h3>Add New Expense</h3>
-        <button class="close-btn" onclick="closeModal()">&times;</button>
+        <h3 id="expenseModalTitle">Add New Expense</h3>
+        <button class="close-btn" type="button" data-close-modal aria-label="Close">&times;</button>
       </div>
-      <form id="expenseForm" onsubmit="handleAddExpense(event)">
+
+      <form id="expenseForm" novalidate>
         <div class="form-group">
-          <label for="category">Category</label>
-          <select id="category" required>
-            <option value="food">Food</option>
-            <option value="grocery">Grocery</option>
-            <option value="bills">Bills</option>
-            <option value="others">Others</option>
+          <label for="expenseCategory">Category</label>
+          <select id="expenseCategory" required>
+            <option value="Food">Food</option>
+            <option value="Grocery">Grocery</option>
+            <option value="Bills">Bills</option>
+            <option value="Others">Others</option>
           </select>
         </div>
+
         <div class="form-group">
-          <label for="amount">Amount (৳)</label>
-          <input type="number" id="amount" placeholder="e.g. 500" required min="1">
+          <label for="expenseAmount">Amount (৳)</label>
+          <input type="number" id="expenseAmount" placeholder="e.g. 500" required min="1" step="0.01" inputmode="decimal">
         </div>
+
+        <div class="form-group">
+          <label for="expenseNote">Note (optional)</label>
+          <input type="text" id="expenseNote" placeholder="e.g. Weekly groceries" maxlength="80">
+        </div>
+
+        <div class="form-group">
+          <label for="expenseDate">Date</label>
+          <input type="date" id="expenseDate">
+        </div>
+
+        <p class="form-message" id="expenseMessage" role="alert" aria-live="polite"></p>
+
         <div class="modal-actions">
-          <button type="button" class="btn-secondary" onclick="closeModal()">Cancel</button>
-          <button type="submit" class="btn-primary">Save Expense</button>
+          <button type="button" class="btn-secondary" data-close-modal>Cancel</button>
+          <button type="submit" class="btn-primary" id="saveExpenseButton">Save Expense</button>
         </div>
       </form>
     </div>
   </div>
-  <div class="toast" id="toast">Expense added successfully!</div>
 
-  <script src="script2.js"></script>
+  <div class="toast" id="toast" role="status" aria-live="polite">Expense added successfully!</div>
+
+  <script type="module" src="../nav.js"></script>
+  <script type="module" src="script2.js"></script>
 </body>
 </html>
