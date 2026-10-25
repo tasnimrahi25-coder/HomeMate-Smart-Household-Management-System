@@ -1,0 +1,349 @@
+/* ============================================================
+   HomeMate — shared navigation + page offset
+   Loaded last on every page so the bar stays identical everywhere.
+   ============================================================ */
+
+:root {
+  --hm-nav-height: 64px;
+  --hm-nav-bg: rgba(255, 255, 255, 0.94);
+  --hm-nav-border: #e3ebe5;
+  --hm-nav-ink: #26322a;
+  --hm-nav-muted: #68736b;
+  --hm-nav-green: #2f8f4e;
+  --hm-nav-green-dark: #256f3d;
+  --hm-nav-green-soft: #e8f6ec;
+}
+
+body {
+  padding-top: var(--hm-nav-height);
+}
+
+[hidden] {
+  display: none !important;
+}
+
+.hm-nav {
+  position: fixed;
+  z-index: 2000;
+  inset: 0 0 auto;
+  height: var(--hm-nav-height);
+  border-bottom: 1px solid var(--hm-nav-border);
+  background: var(--hm-nav-bg);
+  box-shadow: 0 8px 30px rgba(21, 50, 29, 0.06);
+  -webkit-backdrop-filter: blur(14px);
+  backdrop-filter: blur(14px);
+  font-family: "DM Sans", "Segoe UI", system-ui, sans-serif;
+}
+
+.hm-nav__inner {
+  display: flex;
+  width: min(1200px, 100%);
+  height: 100%;
+  align-items: center;
+  gap: 18px;
+  margin: 0 auto;
+  padding: 0 clamp(16px, 4vw, 32px);
+}
+
+.hm-nav__brand {
+  display: inline-flex;
+  flex: 0 0 auto;
+  align-items: center;
+  gap: 10px;
+  color: var(--hm-nav-green-dark);
+  font-size: 20px;
+  font-weight: 800;
+  letter-spacing: -0.7px;
+  text-decoration: none;
+}
+
+.hm-nav__brand:hover {
+  color: var(--hm-nav-green);
+}
+
+.hm-nav__logo {
+  display: grid;
+  width: 35px;
+  height: 35px;
+  place-items: center;
+  border-radius: 11px;
+  background: linear-gradient(135deg, #dcf3e3, #c2e9cd);
+  color: var(--hm-nav-green-dark);
+}
+
+.hm-nav__logo svg {
+  width: 19px;
+  height: 19px;
+}
+
+.hm-nav__brand span:last-child span {
+  color: var(--hm-nav-green);
+}
+
+.hm-nav__links {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  margin-left: 8px;
+}
+
+.hm-nav__links a {
+  padding: 9px 12px;
+  border-radius: 9px;
+  color: var(--hm-nav-muted);
+  font-size: 13px;
+  font-weight: 600;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: background 150ms ease, color 150ms ease;
+}
+
+.hm-nav__links a:hover {
+  background: #f2f7f2;
+  color: var(--hm-nav-green-dark);
+}
+
+.hm-nav__links a[aria-current="page"],
+.hm-nav__links a.is-active {
+  background: var(--hm-nav-green-soft);
+  color: var(--hm-nav-green-dark);
+}
+
+.hm-nav__account {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-left: auto;
+}
+
+.hm-nav__user {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 5px 10px 5px 5px;
+  border: 1px solid var(--hm-nav-border);
+  border-radius: 999px;
+  background: #fbfdfb;
+}
+
+.hm-nav__avatar {
+  display: grid;
+  width: 28px;
+  height: 28px;
+  place-items: center;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #2f8f4e, #4bb06b);
+  color: #fff;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.4px;
+}
+
+.hm-nav__name {
+  max-width: 130px;
+  overflow: hidden;
+  color: var(--hm-nav-ink);
+  font-size: 12px;
+  font-weight: 600;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.hm-nav__auth,
+.hm-nav__logout {
+  display: inline-flex;
+  height: 36px;
+  align-items: center;
+  justify-content: center;
+  padding: 0 14px;
+  border: 1px solid transparent;
+  border-radius: 9px;
+  font-family: inherit;
+  font-size: 12px;
+  font-weight: 700;
+  text-decoration: none;
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+.hm-nav__auth {
+  background: var(--hm-nav-green);
+  color: #fff;
+}
+
+.hm-nav__auth:hover {
+  background: var(--hm-nav-green-dark);
+}
+
+.hm-nav__logout {
+  background: transparent;
+  color: var(--hm-nav-muted);
+}
+
+.hm-nav__logout:hover {
+  background: #fff1f1;
+  color: #b44747;
+}
+
+.hm-nav__toggle {
+  display: none;
+  width: 38px;
+  height: 38px;
+  place-items: center;
+  border: 1px solid var(--hm-nav-border);
+  border-radius: 9px;
+  background: #fff;
+  color: var(--hm-nav-ink);
+  cursor: pointer;
+}
+
+.hm-nav__toggle span {
+  display: block;
+  width: 16px;
+  height: 2px;
+  margin: 2px auto;
+  border-radius: 2px;
+  background: currentColor;
+}
+
+/* Feature pages sit slightly below the bar instead of touching it. */
+.hm-grocery,
+.hm-budget,
+.hm-expenses,
+.hm-auth {
+  padding-top: calc(var(--hm-nav-height) + 24px);
+}
+
+/* Dashboard uses the same top navigation, so its old sidebar offset is removed. */
+.hm-dashboard .main-content {
+  min-height: calc(100vh - var(--hm-nav-height));
+  margin-left: 0;
+}
+
+.hm-dashboard .app-shell {
+  min-height: calc(100vh - var(--hm-nav-height));
+}
+
+.hm-dashboard .topbar {
+  top: var(--hm-nav-height);
+}
+
+.hm-dashboard .sidebar {
+  top: var(--hm-nav-height);
+}
+
+/* Dark theme used by the dashboard is reflected in the shared bar. */
+body.dark-theme .hm-nav {
+  --hm-nav-bg: rgba(23, 29, 25, 0.95);
+  --hm-nav-border: #343e36;
+  --hm-nav-ink: #e9eee9;
+  --hm-nav-muted: #aeb8af;
+  background: var(--hm-nav-bg);
+}
+
+body.dark-theme .hm-nav__brand {
+  color: #9ed7a1;
+}
+
+body.dark-theme .hm-nav__brand span:last-child span {
+  color: #7ec58a;
+}
+
+body.dark-theme .hm-nav__links a:hover {
+  background: #2a352b;
+  color: #b9e4be;
+}
+
+body.dark-theme .hm-nav__links a[aria-current="page"],
+body.dark-theme .hm-nav__links a.is-active {
+  background: #304535;
+  color: #b9e4be;
+}
+
+body.dark-theme .hm-nav__user {
+  border-color: #343e36;
+  background: #222a24;
+}
+
+body.dark-theme .hm-nav__auth {
+  background: #3c8b52;
+}
+
+body.dark-theme .hm-nav__toggle {
+  border-color: #343e36;
+  background: #222a24;
+  color: #e9eee9;
+}
+
+@media (max-width: 880px) {
+  .hm-nav__inner {
+    gap: 10px;
+  }
+
+  .hm-nav__toggle {
+    display: inline-grid;
+    margin-left: auto;
+  }
+
+  .hm-nav__links {
+    position: absolute;
+    top: 100%;
+    right: 0;
+    left: 0;
+    display: none;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 2px;
+    margin: 0;
+    padding: 10px clamp(16px, 4vw, 32px) 14px;
+    border-bottom: 1px solid var(--hm-nav-border);
+    background: #fff;
+    box-shadow: 0 18px 30px rgba(21, 50, 29, 0.1);
+  }
+
+  .hm-nav__links.is-open {
+    display: flex;
+  }
+
+  .hm-nav__links a {
+    padding: 11px 12px;
+  }
+
+  .hm-nav__account {
+    margin-left: 0;
+  }
+
+  body.dark-theme .hm-nav__links {
+    background: #1d251f;
+  }
+}
+
+@media (max-width: 620px) {
+  .hm-nav__name {
+    display: none;
+  }
+
+  .hm-nav__user {
+    padding: 4px;
+  }
+
+  .hm-nav__auth,
+  .hm-nav__logout {
+    padding: 0 11px;
+  }
+}
+
+@media (max-width: 420px) {
+  .hm-nav__brand {
+    font-size: 18px;
+  }
+
+  .hm-nav__logo {
+    width: 32px;
+    height: 32px;
+  }
+
+  .hm-nav__logout {
+    display: none;
+  }
+}

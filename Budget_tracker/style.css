@@ -1,0 +1,195 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+}
+
+body {
+  background-color: #f3f7fa;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+}
+
+.dashboard-container {
+  display: flex;
+  gap: 30px;
+  max-width: 1100px;
+  width: 100%;
+}
+
+.panel-card {
+  background: #ffffff;
+  border-radius: 12px;
+  padding: 40px;
+  flex: 1;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.02);
+}
+
+.home-link {
+  display: inline-block;
+  margin-bottom: 24px;
+  color: #267c36;
+  font-size: 14px;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.home-link:hover {
+  color: #1f682d;
+  text-decoration: underline;
+}
+
+.app-title {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  color: #1d68c4;
+  font-size: 28px;
+  font-weight: 700;
+  margin-bottom: 25px;
+}
+
+.balance-display {
+  text-align: center;
+  font-size: 32px;
+  font-weight: 700;
+  color: #2c3e50;
+  margin-bottom: 30px;
+}
+
+.input-form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.form-control {
+  width: 100%;
+  padding: 14px 16px;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  font-size: 15px;
+  color: #4a5568;
+  outline: none;
+  background-color: #ffffff;
+}
+
+.form-control::placeholder {
+  color: #a0aec0;
+}
+
+.form-control:focus {
+  border-color: #3b82f6;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input[type=number] {
+  -moz-appearance: textfield;
+}
+
+.submit-button {
+  background-color: #3b82f6;
+  color: #ffffff;
+  border: none;
+  border-radius: 8px;
+  padding: 14px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  margin-top: 10px;
+  transition: background-color 0.2s ease;
+}
+
+.submit-button:hover {
+  background-color: #2563eb;
+}
+
+.panel-title {
+  font-size: 22px;
+  font-weight: 700;
+  color: #2c3e50;
+  margin-bottom: 25px;
+}
+
+.list-container {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.transaction-card {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 24px;
+  border-radius: 8px;
+}
+
+.transaction-card.income {
+  background-color: #eefbf3;
+}
+
+.transaction-card.expense {
+  background-color: #fff1f1;
+}
+
+.card-desc {
+  font-size: 15px;
+  color: #2c3e50;
+  font-weight: 500;
+}
+
+.card-right {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 8px;
+}
+
+.card-amount {
+  font-size: 16px;
+  font-weight: 600;
+  color: #2c3e50;
+}
+
+.delete-btn {
+  background-color: #e53e3e;
+  color: #ffffff;
+  border: none;
+  border-radius: 4px;
+  padding: 4px 12px;
+  font-size: 12px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.delete-btn:hover {
+  background-color: #c53030;
+}
+
+
+@media(max-width: 768px) {
+    body {
+        padding-top: 2rem;
+    }
+    
+    .app-container {
+        flex-direction: column;
+        gap: 2rem;
+    }
+
+    #balance {
+        font-size: 2.2rem;
+    }
+}

@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HomeMate | Recipe Finder</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href="style.css">
+        <link rel="stylesheet" href="../app-navigation.css">
+    <link rel="stylesheet" href="../app-theme.css">
+</head>
+    <body data-page="recipes">
+    <header class="hm-nav" data-hm-nav>
+        <div class="hm-nav__inner">
+            <a class="hm-nav__brand" href="../index.html" aria-label="HomeMate home">
+                <span class="hm-nav__logo" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M3 10.5 12 3l9 7.5"/><path d="M5 9.5V21h14V9.5"/><path d="M9 21v-6h6v6"/>
+                    </svg>
+                </span>
+                <span>Home<span>Mate</span></span>
+            </a>
+
+            <button class="hm-nav__toggle" type="button" data-nav-toggle aria-expanded="false" aria-controls="hm-nav-links" aria-label="Toggle navigation">
+                <span></span><span></span><span></span>
+            </button>
+
+            <nav class="hm-nav__links" id="hm-nav-links" data-nav-links aria-label="Primary navigation">
+                <a href="../Dashboard/index.html" data-nav="dashboard">Dashboard</a>
+                <a href="../grocery%20list/index.html" data-nav="grocery">Grocery</a>
+                <a href="../Recipe_finder/index.html" data-nav="recipes">Recipes</a>
+                <a href="../Budget_trecker/index.html" data-nav="budget">Budget</a>
+                <a href="../expense%20trecker/index2.html" data-nav="expenses">Expenses</a>
+            </nav>
+
+            <div class="hm-nav__account">
+                <span class="hm-nav__user" data-nav-user hidden>
+                    <span class="hm-nav__avatar" data-nav-avatar>U</span>
+                    <span class="hm-nav__name" data-nav-name>Account</span>
+                </span>
+                <a class="hm-nav__auth" href="../login-register/index.html" data-nav-auth>Sign in</a>
+                <button class="hm-nav__logout" type="button" data-nav-logout hidden>Log out</button>
+            </div>
+        </div>
+    </header>
+<div class="recipe-finder-container">
+    <h1>Recipe Finder</h1>
+
+        <form id="search-form" class="search-box">
+            <input type="text" id="search-input" placeholder="Search by recipe name (e.g. pudding, pasta, salad)"/>
+           
+            <button type="submit" id="search-button">Search</button>
+        </form>
+
+        <form id="pantry-search-form" class="pantry-search">
+            <label for="pantry-search-input">Cook with what you have</label>
+            <p>Enter ingredients separated by commas. We’ll show recipes that use the most of them.</p>
+            <div class="search-box pantry-search-box">
+                <input type="text" id="pantry-search-input" maxlength="250" placeholder="e.g. milk, sugar, eggs" required>
+                <button type="submit" id="pantry-search-button">Find recipes</button>
+            </div>
+        </form>
+
+        <div class="random-button-container">
+            <button id="random-button">Find a Random Recipe</button>
+        </div>
+        <div class="message loading" id="message-area">Search for a recipe or get a random one</div>
+        <div class="results-grid" id="results-grid"> </div>
+           
+
+        <div class="modal-container hidden" id="recipe-modal">
+            <div class="modal-content">
+                <button type="button" class="modal-close-btn" id="modal-close-btn" aria-label="Close recipe details">&times;</button>
+                <div id="recipe-details-content">
+                        </div>
+                    </div>
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+        </div>
+    </div>
+    <script type="module" src="../nav.js"></script>
+    <script src="../app-data.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>

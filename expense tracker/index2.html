@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Expense Tracking - HomeMate</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <link rel="stylesheet" href="style2.css">
+  <link rel="stylesheet" href="../app-navigation.css">
+  <link rel="stylesheet" href="../app-theme.css">
+</head>
+<body>
+
+  <nav class="hm-nav" aria-label="HomeMate features">
+    <a class="hm-nav-brand" href="../Dashboard/index.html">HomeMate</a>
+    <div class="hm-nav-links">
+      <a href="../Dashboard/index.html">Dashboard</a>
+      <a href="../grocery%20list/index.html">Groceries</a>
+      <a href="../Recipe_finder/index.html">Recipes</a>
+      <a href="../Budget_tracker/index.html">Budget</a>
+      <a href="../expense%20tracker/index2.html" aria-current="page">Expenses</a>
+      <a href="../login-register/index.html">Log in</a>
+    </div>
+  </nav>
+  <div class="main-wrapper">
+    <header class="topbar">
+      <div class="brand">
+        <i class="fa-solid fa-house"></i>
+        <span>HomeMate</span>
+      </div>
+
+      <div class="search-box">
+        <i class="fa-solid fa-magnifying-glass"></i>
+        <input type="text" id="searchInput" placeholder="Search expenses..." onkeyup="filterCategories()">
+      </div>
+
+      <div class="user-actions">
+        <button class="icon-btn" title="Notifications">
+          <i class="fa-regular fa-bell"></i>
+          <span class="badge"></span>
+        </button>
+        <div class="avatar">U</div>
+      </div>
+    </header>
+    <main class="content">
+      <div class="page-header">
+        <h2>Expenses</h2>
+        <button class="btn-primary" onclick="openModal()">
+          <i class="fa-solid fa-plus"></i> Add Expense
+        </button>
+      </div>
+      <div class="grid-2">
+        <div class="card total-card">
+          <span class="card-subtitle">Total This Month</span>
+          <div class="amount" id="totalAmount">৳ 12,450</div>
+        </div>
+        <div class="card chart-card">
+          <span class="card-title">Monthly Overview</span>
+          <div class="bar-chart">
+            <div class="bar-item">
+              <div class="bar-wrapper"><div class="bar-fill" style="height: 45%;"></div></div>
+              <span>Jan</span>
+            </div>
+            <div class="bar-item">
+              <div class="bar-wrapper"><div class="bar-fill" style="height: 65%;"></div></div>
+              <span>Feb</span>
+            </div>
+            <div class="bar-item">
+              <div class="bar-wrapper"><div class="bar-fill" style="height: 38%;"></div></div>
+              <span>Mar</span>
+            </div>
+            <div class="bar-item">
+              <div class="bar-wrapper"><div class="bar-fill" style="height: 70%;"></div></div>
+              <span>Apr</span>
+            </div>
+            <div class="bar-item">
+              <div class="bar-wrapper"><div class="bar-fill" style="height: 85%;"></div></div>
+              <span>May</span>
+            </div>
+            <div class="bar-item">
+              <div class="bar-wrapper"><div class="bar-fill" style="height: 60%;"></div></div>
+              <span>Jun</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="grid-2">
+        <div class="card">
+          <span class="card-title">Categories</span>
+          <ul class="category-list" id="categoryList">
+            <li class="category-item" data-name="food">
+              <div class="cat-info">
+                <span class="dot red"></span>
+                <span class="cat-name">Food</span>
+              </div>
+              <div class="cat-value">
+                <strong>৳ <span class="val-food">4,500</span></strong>
+                <span class="percentage">(36%)</span>
+              </div>
+            </li>
+            <li class="category-item" data-name="grocery">
+              <div class="cat-info">
+                <span class="dot green"></span>
+                <span class="cat-name">Grocery</span>
+              </div>
+              <div class="cat-value">
+                <strong>৳ <span class="val-grocery">3,200</span></strong>
+                <span class="percentage">(26%)</span>
+              </div>
+            </li>
+            <li class="category-item" data-name="bills">
+              <div class="cat-info">
+                <span class="dot blue"></span>
+                <span class="cat-name">Bills</span>
+              </div>
+              <div class="cat-value">
+                <strong>৳ <span class="val-bills">2,750</span></strong>
+                <span class="percentage">(22%)</span>
+              </div>
+            </li>
+            <li class="category-item" data-name="others">
+              <div class="cat-info">
+                <span class="dot purple"></span>
+                <span class="cat-name">Others</span>
+              </div>
+              <div class="cat-value">
+                <strong>৳ <span class="val-others">2,000</span></strong>
+                <span class="percentage">(16%)</span>
+              </div>
+            </li>
+          </ul>
+        </div>
+        <div class="card donut-card">
+          <div class="donut-chart" id="donutChart">
+            <div class="donut-inner">
+              <div class="donut-amount" id="donutTotal">৳ 12,450</div>
+              <div class="donut-label">Total</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+  <div class="modal-overlay" id="expenseModal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3>Add New Expense</h3>
+        <button class="close-btn" onclick="closeModal()">&times;</button>
+      </div>
+      <form id="expenseForm" onsubmit="handleAddExpense(event)">
+        <div class="form-group">
+          <label for="category">Category</label>
+          <select id="category" required>
+            <option value="food">Food</option>
+            <option value="grocery">Grocery</option>
+            <option value="bills">Bills</option>
+            <option value="others">Others</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="amount">Amount (৳)</label>
+          <input type="number" id="amount" placeholder="e.g. 500" required min="1">
+        </div>
+        <div class="modal-actions">
+          <button type="button" class="btn-secondary" onclick="closeModal()">Cancel</button>
+          <button type="submit" class="btn-primary">Save Expense</button>
+        </div>
+      </form>
+    </div>
+  </div>
+  <div class="toast" id="toast">Expense added successfully!</div>
+
+  <script src="script2.js"></script>
+</body>
+</html>

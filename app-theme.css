@@ -1,0 +1,108 @@
+:root {
+  --hm-canvas: #f5f7fb;
+  --hm-surface: #ffffff;
+  --hm-ink: #202a3b;
+  --hm-muted: #64748b;
+  --hm-line: #e2e8f0;
+  --hm-navy: #202b42;
+  --hm-primary: #5278e8;
+  --hm-primary-hover: #3f63d1;
+  --hm-primary-soft: #edf2ff;
+  --hm-success: #279b78;
+  --hm-success-soft: #e9f7f1;
+}
+
+body {
+  background-color: var(--hm-canvas);
+  color: var(--hm-ink);
+}
+
+.hm-nav {
+  background: var(--hm-surface);
+  border-bottom-color: var(--hm-line);
+}
+
+.hm-nav a {
+  color: var(--hm-muted);
+}
+
+.hm-nav .hm-nav-brand {
+  color: var(--hm-navy);
+}
+
+.hm-nav-links a:hover,
+.hm-nav-links a[aria-current="page"] {
+  color: var(--hm-primary);
+  background: var(--hm-primary-soft);
+}
+
+.home-link,
+.text-link {
+  color: var(--hm-primary);
+}
+
+.home-link:hover,
+.text-link:hover {
+  color: var(--hm-primary-hover);
+}
+
+.container,
+.panel-card,
+.main-wrapper,
+.pantry-search,
+.recipe-item,
+.modal-content,
+.card:not(.green):not(.blue):not(.orange) {
+  background-color: var(--hm-surface);
+  border-color: var(--hm-line);
+}
+
+input,
+select,
+textarea,
+.form-control {
+  color: var(--hm-ink);
+  border-color: var(--hm-line);
+}
+
+input:focus,
+select:focus,
+textarea:focus,
+.form-control:focus {
+  border-color: var(--hm-primary);
+}
+
+.add-btn,
+.submit-button,
+.btn-primary,
+.btn,
+.add-recipe-ingredients,
+#addBtn,
+#search-button,
+#pantry-search-button,
+#random-button {
+  background: var(--hm-primary);
+}
+
+.add-btn:hover,
+.submit-button:hover,
+.btn-primary:hover,
+.btn:hover,
+.add-recipe-ingredients:hover,
+#addBtn:hover,
+#search-button:hover,
+#pantry-search-button:hover,
+#random-button:hover {
+  background: var(--hm-primary-hover);
+}
+
+.app-title,
+.pantry-search > label,
+#recipe-details-content h2,
+#recipe-details-content a {
+  color: var(--hm-primary);
+}
+
+.recipe-finder-container {
+  color: var(--hm-ink);
+}
