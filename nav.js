@@ -29,6 +29,14 @@ if (nav) {
   const nameLabel = nav.querySelector("[data-nav-name]");
   const page = document.body.dataset.page || "";
 
+  if (links && !links.querySelector('[data-nav="maintenance"]')) {
+    const maintenanceLink = document.createElement("a");
+    maintenanceLink.href = routes.maintenance;
+    maintenanceLink.dataset.nav = "maintenance";
+    maintenanceLink.textContent = "Maintenance";
+    links.appendChild(maintenanceLink);
+  }
+
   // Highlight the current module.
   nav.querySelectorAll("[data-nav]").forEach((link) => {
     if (page && link.dataset.nav === page) {

@@ -59,7 +59,8 @@ export const routes = {
   dashboard: projectUrl("dashboard/index.html"),
   grocery: projectUrl("grocery list/index.html"),
   budget: projectUrl("Budget_trecker/index.html"),
-  expenses: projectUrl("expense trecker/index2.html")
+  expenses: projectUrl("expense trecker/index2.html"),
+  maintenance: projectUrl("Maintainance/index.html")
 };
 
 /* ------------------------------------------------------------------ */
@@ -235,6 +236,56 @@ export async function updateGrocery(id, patch) {
 
 export async function deleteGrocery(id) {
   await deleteDoc(doc(db, "users", currentUid(), "groceries", id));
+}
+
+export function watchMaintenance(onNext, onError) {
+  return onSnapshot(userCollection("maintenance"), (snapshot) => onNext(mapSnapshot(snapshot)), onError);
+}
+
+export async function addMaintenance({ item, lastService = "", nextService, intervalMonths = 6 } = {}) {
+  const cleanItem = String(item || "").trim();
+  if (!cleanItem) throw new Error("Please enter an appliance name.");
+  if (!nextService) throw new Error("Please choose the next service date.");
+
+  const reference = await addDoc(userCollection("maintenance"), {
+    item: cleanItem,
+    lastService: String(lastService || ""),
+    nextService: String(nextService),
+    intervalMonths: Number(intervalMonths) || 6,
+    createdAt: serverTimestamp()
+  });
+
+  return reference.id;
+}
+
+export async function updateMaintenance(id, patch) {
+  await updateDoc(doc(db, "users", currentUid(), "maintenance", id), patch);
+}
+
+export function watchBills(onNext, onError) {
+  return onSnapshot(userCollection("bills"), (snapshot) => onNext(mapSnapshot(snapshot)), onError);
+}
+
+export async function addBill({ name, amount, due } = {}) {
+  const cleanName = String(name || "").trim();
+  const value = Number(amount);
+  if (!cleanName) throw new Error("Please enter a bill name.");
+  if (!Number.isFinite(value) || value <= 0) throw new Error("Please enter an amount greater than zero.");
+  if (!due) throw new Error("Please choose a due date.");
+
+  const reference = await addDoc(userCollection("bills"), {
+    name: cleanName,
+    amount: value,
+    due: String(due),
+    paid: false,
+    createdAt: serverTimestamp()
+  });
+
+  return reference.id;
+}
+
+export async function updateBill(id, patch) {
+  await updateDoc(doc(db, "users", currentUid(), "bills", id), patch);
 }
 
 export function watchExpenses(onNext, onError) {
