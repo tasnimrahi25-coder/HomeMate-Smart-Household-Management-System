@@ -231,6 +231,35 @@ function init(currentUser) {
     categoryEmpty.hidden = entries.length > 0;
   }
 
+  async function loadRecipeIdeas() {
+    const recipeIdea = document.getElementById("recipe-idea");
+    if (!recipeIdea) return;
+
+    try {
+      const response = await fetch("https://themealdb.com/api/json/v1/1/search.php?s=chicken");
+      if (!response.ok) throw new Error("Failed to load recipes");
+      const data = await response.json();
+      const recipes = data.meals || [];
+      if (!recipes.length) {
+        recipeIdea.innerHTML = '<div class="recipe-idea__empty">No recipe ideas available right now.</div>';
+        return;
+      }
+
+      const firstThree = recipes.slice(0, 3);
+      recipeIdea.innerHTML = firstThree.map((recipe) => `
+        <a class="recipe-idea__card" href="../Recipe_finder/index.html" title="Open recipe finder">
+          <img src="${recipe.strMealThumb}" alt="${recipe.strMeal}">
+          <div class="recipe-idea__meta">
+            <span>Popular pick</span>
+            <strong>${recipe.strMeal}</strong>
+          </div>
+        </a>
+      `).join("");
+    } catch (error) {
+      recipeIdea.innerHTML = '<div class="recipe-idea__empty">Recipe ideas are unavailable right now.</div>';
+    }
+  }
+
   function renderAll() {
     renderSummary();
     renderPendingGroceries();
@@ -277,4 +306,5 @@ function init(currentUser) {
 
   updateGreeting();
   renderAll();
+  loadRecipeIdeas();
 }

@@ -1027,6 +1027,69 @@ input:focus-visible + .custom-check {
     font-size: 16px;
 }
 
+.recipe-section {
+    margin-top: 18px;
+}
+
+.recipe-panel {
+    max-width: 760px;
+}
+
+.recipe-idea {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 14px;
+    margin-top: 16px;
+}
+
+.recipe-idea__card {
+    display: block;
+    overflow: hidden;
+    border: 1px solid rgba(230, 234, 241, 0.9);
+    border-radius: 14px;
+    background: #fff;
+    transition: transform 150ms ease, box-shadow 150ms ease;
+}
+
+.recipe-idea__card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 20px rgba(52, 68, 94, 0.08);
+}
+
+.recipe-idea__card img {
+    display: block;
+    width: 100%;
+    height: 150px;
+    object-fit: cover;
+}
+
+.recipe-idea__meta {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    padding: 12px 12px 14px;
+}
+
+.recipe-idea__meta span {
+    color: #7d8799;
+    font-size: 10px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+}
+
+.recipe-idea__meta strong {
+    color: #273148;
+    font-size: 15px;
+    font-weight: 700;
+}
+
+.recipe-idea__empty,
+.recipe-idea__loading {
+    color: #7d8799;
+    font-size: 12px;
+    line-height: 1.6;
+}
+
 .page-footer {
     display: flex;
     justify-content: space-between;
@@ -1105,8 +1168,13 @@ body.dark-theme {
 .dark-theme .grocery-list li,
 .dark-theme .category-row,
 .dark-theme .bill-item,
-.dark-theme .panel-footer-link {
+.dark-theme .panel-footer-link,
+.dark-theme .recipe-idea__card {
     border-color: #2a3545;
+}
+
+.dark-theme .recipe-idea__meta strong {
+    color: #e7ebf2;
 }
 
 @media (max-width: 1180px) {
@@ -1175,6 +1243,10 @@ body.dark-theme {
     .lower-grid {
         grid-template-columns: minmax(0, 1.15fr) minmax(270px, 0.85fr);
         gap: 14px;
+    }
+
+    .recipe-idea {
+        grid-template-columns: 1fr;
     }
 
     .panel {
