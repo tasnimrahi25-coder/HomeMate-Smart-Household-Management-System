@@ -1,21 +1,21 @@
+import { requireAuth, watchGroceries, addGrocery, updateGrocery, deleteGrocery } from './firebase.js';
 
-import {
-  watchGroceries,
-  addGrocery,
-  updateGrocery,
-  deleteGrocery
-} from "./firebase.js";
+export async function initGroceryPage(renderList) {
+  await requireAuth();
+  
+  watchGroceries((groceries) => {
+    if (renderList) renderList(groceries);
+  });
+}
 
-export const GroceryAPI = {
-  getAll: (callback, onError) =>
-    watchGroceries(callback, onError),
+export async function handleAddGrocery(name, price, date) {
+  return await addGrocery({ name, price, date });
+}
 
-  add: (name, price = 0, date) =>
-    addGrocery({ name, price, date }),
+export async function handleUpdateGrocery(id, patch) {
+  return await updateGrocery(id, patch);
+}
 
-  update: (id, changes) =>
-    updateGrocery(id, changes),
-
-  delete: (id) =>
-    deleteGrocery(id)
-};
+export async function handleDeleteGrocery(id) {
+  return await deleteGrocery(id);
+}
