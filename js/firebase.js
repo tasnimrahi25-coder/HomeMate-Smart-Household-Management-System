@@ -44,7 +44,7 @@ const projectUrl = (path) => new URL(path, import.meta.url).href;
 export const routes = {
   home: projectUrl("index.html"),
   login: projectUrl("login-register/index.html"),
-  dashboard: projectUrl("dashboard/index.html"),
+  dashboard: projectUrl("Dashboard/index.html"),
   grocery: projectUrl("grocery list/index.html"),
   budget: projectUrl("Budget_trecker/index.html"),
   expenses: projectUrl("expense trecker/index2.html")

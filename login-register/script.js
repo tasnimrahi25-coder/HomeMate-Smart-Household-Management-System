@@ -69,7 +69,7 @@ document.querySelectorAll("[data-password-toggle]").forEach((button) => {
 
 function nextDestination() {
   const next = new URLSearchParams(window.location.search).get("next");
-  if (!next) return "../dashboard/index.html";
+  if (!next) return "../Dashboard/index.html";
 
   try {
     const url = new URL(next);
@@ -80,7 +80,7 @@ function nextDestination() {
     // Ignore malformed values and fall back to the dashboard.
   }
 
-  return "../dashboard/index.html";
+  return "../Dashboard/index.html";
 }
 
 loginForm?.addEventListener("submit", async (event) => {
