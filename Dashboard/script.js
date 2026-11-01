@@ -4,9 +4,13 @@ import {
   watchExpenses,
   watchBills,
   watchMaintenance,
+  addGrocery,
+  addBill,
+  addExpense,
   getUserProfile,
   formatTaka,
-  isCurrentMonth
+  isCurrentMonth,
+  todayISO
 } from "../firebase.js";
 
 const user = await requireAuth();
@@ -42,6 +46,88 @@ function init(currentUser) {
     recipes: [],
     readNotifications: new Set(JSON.parse(localStorage.getItem("hm-read-notifications") || "[]"))
   };
+
+  function openQuickDialog(dialogId) {
+    const dialog = document.getElementById(dialogId);
+    if (!(dialog instanceof HTMLDialogElement)) return;
+
+    const form = dialog.querySelector("form");
+    form.reset();
+    dialog.querySelector(".quick-dialog__error").textContent = "";
+    const today = todayISO();
+    form.querySelectorAll('input[type="date"]').forEach((input) => {
+      input.value = today;
+      if (input.id === "dashboard-grocery-date") input.min = today;
+    });
+    dialog.showModal();
+    form.querySelector("input, select")?.focus();
+  }
+
+  document.querySelectorAll("[data-open-quick-dialog]").forEach((button) => {
+    button.addEventListener("click", () => openQuickDialog(button.dataset.openQuickDialog));
+  });
+
+  document.querySelectorAll("[data-close-quick-dialog]").forEach((button) => {
+    button.addEventListener("click", () => button.closest("dialog").close());
+  });
+
+  document.querySelectorAll(".quick-dialog").forEach((dialog) => {
+    dialog.addEventListener("click", (event) => {
+      if (event.target === dialog) dialog.close();
+    });
+  });
+
+  function wireQuickForm(formId, errorId, save) {
+    const form = document.getElementById(formId);
+    const errorMessage = document.getElementById(errorId);
+    const submitButton = form.querySelector('[type="submit"]');
+
+    form.addEventListener("submit", async (event) => {
+      event.preventDefault();
+      errorMessage.textContent = "";
+      submitButton.disabled = true;
+
+      try {
+        await save(new FormData(form));
+        form.closest("dialog").close();
+      } catch (error) {
+        console.error(error);
+        errorMessage.textContent = error.message || "Could not save this item. Please try again.";
+      } finally {
+        submitButton.disabled = false;
+      }
+    });
+  }
+
+  wireQuickForm("ingredient-form", "ingredient-error", (data) =>
+    addGrocery({ name: String(data.get("name") || "").trim(), date: todayISO() })
+  );
+
+  wireQuickForm("dashboard-grocery-form", "dashboard-grocery-error", (data) =>
+    addGrocery({
+      name: String(data.get("name") || "").trim(),
+      price: Number(data.get("price")) || 0,
+      date: String(data.get("date") || todayISO())
+    })
+  );
+
+  wireQuickForm("dashboard-bill-form", "dashboard-bill-error", (data) =>
+    addBill({
+      name: String(data.get("name") || "").trim(),
+      amount: Number(data.get("amount")),
+      due: String(data.get("due") || "")
+    })
+  );
+
+  wireQuickForm("budget-note-form", "budget-note-error", (data) =>
+    addExpense({
+      title: String(data.get("description") || "").trim(),
+      amount: Number(data.get("amount")),
+      category: String(data.get("category") || "Others"),
+      date: String(data.get("date") || todayISO()),
+      source: "dashboard"
+    })
+  );
 
   function applyTheme(isDark) {
     document.body.classList.toggle("dark-theme", isDark);

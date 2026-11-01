@@ -189,10 +189,7 @@ function init() {
         top.className = "appliance-card-top";
         const name = document.createElement("h3");
         name.textContent = appliance.item || "Appliance";
-        const icon = document.createElement("span");
-        icon.className = "appliance-icon material-icons-sharp";
-        icon.setAttribute("aria-hidden", "true");
-        icon.textContent = "home_repair_service";
+        const icon = createApplianceIcon();
         top.append(name, icon);
 
         const dates = document.createElement("div");
