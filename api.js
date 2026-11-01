@@ -39,7 +39,7 @@ const Api = (() => {
         { id: uid(), title: 'Water Plants', who: 'Me', done: false },
       ],
       maintenance: [
-        { id: uid(), item: 'AC Service', next: day(10), status: 'Upcoming' },
+        { id: uid(), item: 'AC Service', lastService: '2026-08-11', next: '2026-11-11', intervalMonths: 3, status: 'Upcoming' },
         { id: uid(), item: 'Refrigerator', next: day(17), status: 'Upcoming' },
         { id: uid(), item: 'Water Filter', next: day(25), status: 'Upcoming' },
       ],

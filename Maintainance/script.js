@@ -153,8 +153,8 @@ function init() {
       const late = Math.abs(days);
       return { label: `Overdue by ${late} day${late === 1 ? "" : "s"}`, className: "is-danger" };
     }
-    if (days === 0) return { label: "Due today", className: "is-warning" };
-    if (days <= 7) return { label: `Due in ${days} day${days === 1 ? "" : "s"}`, className: "is-warning" };
+    if (days === 0) return { label: "Due today", className: "is-danger" };
+    if (days <= 30) return { label: `Due in ${days} day${days === 1 ? "" : "s"}`, className: "is-danger" };
     return { label: "On track", className: "" };
   }
 
