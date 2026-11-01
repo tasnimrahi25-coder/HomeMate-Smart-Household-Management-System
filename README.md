@@ -18,8 +18,9 @@ It is built as a group project with **HTML, CSS and JavaScript (ES modules)** fo
 | Grocery list | `grocery list/index.html` | Add, search, tick off and delete grocery items; purchases become expenses |
 | Budget tracker | `Budget_trecker/index.html` | Set a monthly budget, record income and expenses, see the remaining balance |
 | Expense tracker | `expense trecker/index2.html` | Add/delete expenses, category totals, donut chart and recent activity |
+| Maintenance & bills | `Maintainance/index.html` | Appliance service schedule plus household bills; paid bills flow into shared expenses |
 
-**Planned but not yet wired to Firebase:** recipe finder, food-waste tracking, chores and maintenance/bills. The `recipe_finder/` folder is a static prototype and is not part of the shared navigation.
+**Planned but not yet wired to Firebase:** recipe finder, food-waste tracking and chores. The `recipe_finder/` folder is a static prototype and is not part of the shared navigation.
 
 ## 🔗 How the Modules Work Together
 
@@ -36,6 +37,7 @@ Expense tracker and dashboard show the same total
 - A grocery purchase creates an expense with the category **Grocery**.
 - Un-ticking that purchase (or deleting the grocery item) removes its linked expense.
 - An expense added in the budget tracker or expense tracker appears in all three money views.
+- Marking a bill as paid in the maintenance page writes a **Bills** expense, so the budget tracker, expense tracker and dashboard update immediately. Marking it unpaid removes that expense again.
 - Income is stored separately and affects the budget tracker balance.
 - Every module reads the same `users/{uid}` data, so totals never drift apart.
 
@@ -81,6 +83,10 @@ HomeMate/
 │   ├── index2.html
 │   ├── script2.js           # Expense totals, categories, chart, recent list
 │   └── style2.css
+├── Maintainance/
+│   ├── index.html
+│   ├── script.js            # Appliance service schedule + household bills
+│   └── style.css
 ├── recipe_finder/           # Static prototype (not connected yet)
 ├── api.js                   # Legacy localStorage mock (unused)
 └── app-data.js              # Legacy sample data (unused)
@@ -195,7 +201,7 @@ users/{uid}/expenses/{expenseId}
   category         "Food" | "Grocery" | "Bills" | "Others"
   amount           number
   date             "YYYY-MM-DD"
-  source           "grocery" | "budget-tracker" | "expense-tracker" | "app"
+  source           "grocery" | "budget-tracker" | "expense-tracker" | "maintenance" | "app"
   createdAt        timestamp
 
 users/{uid}/income/{incomeId}
@@ -203,6 +209,22 @@ users/{uid}/income/{incomeId}
   amount           number
   date             "YYYY-MM-DD"
   source           "budget-tracker"
+  createdAt        timestamp
+
+users/{uid}/maintenance/{applianceId}
+  item             string
+  lastService      "YYYY-MM-DD" | ""
+  nextService      "YYYY-MM-DD"
+  intervalMonths   number   (3 | 6 | 12)
+  createdAt        timestamp
+
+users/{uid}/bills/{billId}
+  name             string
+  amount           number
+  due              "YYYY-MM-DD"
+  paid             boolean
+  paidAt           "YYYY-MM-DD" | ""
+  expenseId        string | null   (links a paid bill to its expense)
   createdAt        timestamp
 ```
 
@@ -214,6 +236,7 @@ users/{uid}/income/{incomeId}
 4. Open the **budget tracker** to set a monthly budget and add income or extra expenses.
 5. Open the **expense tracker** to review category totals, the donut chart and recent spending.
 6. Open the **dashboard** for a live overview. Use the moon/sun button to switch themes.
+7. Open **Maintenance** to add appliances, mark them serviced and track household bills. Marking a bill paid records it as a **Bills** expense.
 
 ## 🛠️ Troubleshooting
 
@@ -242,8 +265,8 @@ users/{uid}/income/{incomeId}
 
 - Connect the recipe finder and let missing ingredients flow into the grocery list
 - Food-waste expiry alerts and leftover tracking
-- Household chores and maintenance/bill reminders
-- Push or email notifications
+- Household chores tracking
+- Push or email notifications for upcoming service dates and bills
 - Barcode scanning for groceries
 - Monthly spending and waste charts
 - Multi-household support with role-based permissions

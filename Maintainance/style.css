@@ -92,10 +92,20 @@ body.hm-maintenance {
   font-size: 13px;
 }
 
+.maintenance-icon {
+  display: block;
+  width: 1em;
+  height: 1em;
+  flex: none;
+}
+
 .maintenance-heading-icon {
   display: grid;
   width: 56px;
   height: 56px;
+  flex: 0 0 auto;
+  aspect-ratio: 1;
+  overflow: hidden;
   place-items: center;
   border: 1px solid #d9f0df;
   border-radius: 17px;
@@ -128,6 +138,7 @@ body.hm-maintenance {
   width: 42px;
   height: 42px;
   flex: 0 0 auto;
+  overflow: hidden;
   place-items: center;
   border-radius: 13px;
   font-size: 20px;
@@ -182,8 +193,9 @@ body.hm-maintenance {
   font-size: 12px;
 }
 
-.maintenance-section-heading .material-icons-sharp {
-  font-size: 17px;
+.maintenance-section-heading .maintenance-icon {
+  width: 17px;
+  height: 17px;
 }
 
 .appliance-grid {
@@ -256,6 +268,48 @@ body.hm-maintenance {
   color: #bd4545;
 }
 
+.status-badge.is-neutral {
+  background: #f2f5f2;
+  color: #647168;
+}
+
+.appliance-actions {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+  margin-top: 13px;
+}
+
+.appliance-actions .service-button {
+  grid-column: 1 / -1;
+  margin-top: 0;
+}
+
+.card-action {
+  min-height: 32px;
+  padding: 0 10px;
+  border: 1px solid #e2e9e3;
+  border-radius: 8px;
+  background: #fff;
+  color: #536057;
+  font-size: 11px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: border-color 150ms ease, background 150ms ease, color 150ms ease;
+}
+
+.card-action:hover {
+  border-color: #b6e2c2;
+  background: #eff9f1;
+  color: #267a42;
+}
+
+.card-action--danger:hover {
+  border-color: #f0cccc;
+  background: #fff5f5;
+  color: #bd4545;
+}
+
 .service-button {
   width: 100%;
   min-height: 36px;
@@ -322,6 +376,12 @@ body.hm-maintenance {
   font-weight: 700;
 }
 
+.bill-actions {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
 .bill-action {
   min-width: 76px;
   padding: 6px 10px;
@@ -339,11 +399,31 @@ body.hm-maintenance {
   color: #267a42;
 }
 
+.bill-action:disabled {
+  cursor: not-allowed;
+  opacity: 0.55;
+}
+
 .bill-action.is-paid {
   border-color: transparent;
   background: #eff9f1;
   color: #267a42;
-  cursor: default;
+}
+
+.bill-action--danger {
+  min-width: 0;
+  border-color: #f0d8d8;
+  color: #a93e3e;
+}
+
+.bill-action--danger:hover {
+  border-color: #e7bcbc;
+  background: #fff5f5;
+  color: #8f2f2f;
+}
+
+.bill-table tr.is-overdue .bill-name {
+  color: #a93e3e !important;
 }
 
 .maintenance-empty {
@@ -362,6 +442,12 @@ body.hm-maintenance {
   background: #fff5f5;
   color: #a93e3e;
   font-size: 12px;
+}
+
+.maintenance-feedback.is-success {
+  border-color: #cbe8d3;
+  background: #f1faf3;
+  color: #257040;
 }
 
 .maintenance-footer {
@@ -463,6 +549,13 @@ body.hm-maintenance {
   margin: 0;
   color: #bd4545;
   font-size: 11px;
+}
+
+.dialog-hint {
+  margin: 0;
+  color: #758178;
+  font-size: 11px;
+  line-height: 1.5;
 }
 
 .dialog-submit {

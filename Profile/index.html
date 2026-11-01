@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#f6f8f6">
+  <title>HomeMate | Your profile</title>
+  <link rel="icon" type="image/svg+xml" href="../favicon.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../styles.css">
+  <link rel="stylesheet" href="../app-navigation.css">
+  <link rel="stylesheet" href="../app-theme.css">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body class="hm-profile" data-page="profile">
+  <header class="hm-nav" data-hm-nav>
+    <div class="hm-nav__inner">
+      <a class="hm-nav__brand" href="../index.html" aria-label="HomeMate home">
+        <span class="hm-nav__logo" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M3 10.5 12 3l9 7.5"/><path d="M5 9.5V21h14V9.5"/><path d="M9 21v-6h6v6"/>
+          </svg>
+        </span>
+        <span>Home<span>Mate</span></span>
+      </a>
+
+      <button class="hm-nav__toggle" type="button" data-nav-toggle aria-expanded="false" aria-controls="hm-nav-links" aria-label="Toggle navigation">
+        <span></span><span></span><span></span>
+      </button>
+
+      <nav class="hm-nav__links" id="hm-nav-links" data-nav-links aria-label="Primary navigation">
+        <a href="../Dashboard/index.html" data-nav="dashboard">Dashboard</a>
+        <a href="../grocery%20list/index.html" data-nav="grocery">Grocery</a>
+        <a href="../Recipe_finder/index.html" data-nav="recipes">Recipes</a>
+        <a href="../Budget_trecker/index.html" data-nav="budget">Budget</a>
+      </nav>
+
+      <div class="hm-nav__account">
+        <a class="hm-nav__user" data-nav-user hidden>
+          <span class="hm-nav__avatar" data-nav-avatar>U</span>
+          <span class="hm-nav__name" data-nav-name>Account</span>
+        </a>
+        <a class="hm-nav__auth" href="../login-register/index.html" data-nav-auth>Sign in</a>
+        <button class="hm-nav__logout" type="button" data-nav-logout hidden>Log out</button>
+      </div>
+    </div>
+  </header>
+
+  <main class="profile-page">
+    <header class="profile-heading">
+      <div>
+        <p class="profile-eyebrow">Account settings</p>
+        <h1>Your profile</h1>
+        <p>Manage your HomeMate account details and security.</p>
+      </div>
+      <a class="hm-btn hm-btn--outline" href="../Dashboard/index.html">Back to dashboard</a>
+    </header>
+
+    <section class="profile-card" aria-labelledby="profile-card-title">
+      <div class="profile-summary">
+        <div class="profile-avatar" id="profileAvatar" aria-hidden="true">U</div>
+        <div>
+          <h2 id="profileDisplayName">Your account</h2>
+          <p id="profileEmail">Loading account details...</p>
+        </div>
+      </div>
+
+      <form id="profileForm" class="profile-form" novalidate>
+        <h2 id="profile-card-title">Personal information</h2>
+        <label for="profileName">Display name</label>
+        <input class="hm-input" id="profileName" name="name" type="text" maxlength="80" autocomplete="name" required>
+
+        <label for="profileEmailInput">Email address</label>
+        <input class="hm-input" id="profileEmailInput" name="email" type="email" autocomplete="email" readonly>
+
+        <p class="profile-message" id="profileMessage" role="status" aria-live="polite"></p>
+        <button class="hm-btn hm-btn--primary" id="saveProfileButton" type="submit">Save changes</button>
+      </form>
+
+      <section class="security-section" aria-labelledby="security-title">
+        <div>
+          <h2 id="security-title">Password &amp; security</h2>
+          <p>Get a password reset link sent to your account email.</p>
+        </div>
+        <button class="hm-btn hm-btn--outline" id="resetPasswordButton" type="button">Send password reset</button>
+      </section>
+      <p class="profile-message" id="securityMessage" role="status" aria-live="polite"></p>
+
+      <dl class="profile-meta">
+        <div>
+          <dt>Monthly budget</dt>
+          <dd id="profileBudget">৳ 0</dd>
+        </div>
+        <div>
+          <dt>Member since</dt>
+          <dd id="profileCreated">—</dd>
+        </div>
+      </dl>
+    </section>
+  </main>
+
+  <script type="module" src="../nav.js"></script>
+  <script type="module" src="script.js"></script>
+</body>
+</html>

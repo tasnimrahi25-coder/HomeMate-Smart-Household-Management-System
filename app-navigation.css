@@ -65,6 +65,8 @@ body {
   display: grid;
   width: 35px;
   height: 35px;
+  flex: 0 0 auto;
+  aspect-ratio: 1;
   place-items: center;
   border-radius: 11px;
   background: linear-gradient(135deg, #dcf3e3, #c2e9cd);
@@ -72,8 +74,10 @@ body {
 }
 
 .hm-nav__logo svg {
+  display: block;
   width: 19px;
   height: 19px;
+  flex: none;
 }
 
 .hm-nav__brand span:last-child span {
@@ -124,6 +128,14 @@ body {
   border: 1px solid var(--hm-nav-border);
   border-radius: 999px;
   background: #fbfdfb;
+  color: inherit;
+  text-decoration: none;
+  transition: border-color 150ms ease, background 150ms ease;
+}
+
+.hm-nav__user:hover {
+  border-color: var(--hm-nav-green-200);
+  background: #f3faf4;
 }
 
 .hm-nav__avatar {
@@ -275,7 +287,7 @@ body.dark-theme .hm-nav__toggle {
   color: #e9eee9;
 }
 
-@media (max-width: 880px) {
+@media (max-width: 960px) {
   .hm-nav__inner {
     gap: 10px;
   }

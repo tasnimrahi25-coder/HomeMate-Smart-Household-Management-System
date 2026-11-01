@@ -29,6 +29,12 @@ if (nav) {
   const nameLabel = nav.querySelector("[data-nav-name]");
   const page = document.body.dataset.page || "";
 
+  if (account) {
+    account.href = routes.profile;
+    account.setAttribute("aria-label", "View profile");
+    account.title = "View profile";
+  }
+
   if (links && !links.querySelector('[data-nav="maintenance"]')) {
     const maintenanceLink = document.createElement("a");
     maintenanceLink.href = routes.maintenance;

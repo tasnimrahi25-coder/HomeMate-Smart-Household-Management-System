@@ -36,14 +36,13 @@
         <a href="../grocery%20list/index.html" data-nav="grocery">Grocery</a>
         <a href="../Recipe_finder/index.html" data-nav="recipes">Recipes</a>
         <a href="../Budget_trecker/index.html" data-nav="budget">Budget</a>
-        <a href="../expense%20trecker/index2.html" data-nav="expenses">Expenses</a>
       </nav>
 
       <div class="hm-nav__account">
-        <span class="hm-nav__user" data-nav-user hidden>
+        <a class="hm-nav__user" data-nav-user hidden>
           <span class="hm-nav__avatar" data-nav-avatar>U</span>
           <span class="hm-nav__name" data-nav-name>Account</span>
-        </span>
+        </a>
         <a class="hm-nav__auth" href="../login-register/index.html" data-nav-auth>Sign in</a>
         <button class="hm-nav__logout" type="button" data-nav-logout hidden>Log out</button>
       </div>
@@ -53,7 +52,7 @@
   <main class="dashboard-container">
     <section class="panel-card">
       <div class="app-title">💰 Budget Tracker</div>
-      <p class="app-copy">Income and expenses here are shared with the expense tracker and dashboard.</p>
+      <p class="app-copy">Income and expenses here are shared with your dashboard.</p>
 
       <div class="balance-display">
         <span class="balance-label">Current balance</span>
@@ -113,11 +112,46 @@
     <section class="panel-card">
       <div class="panel-heading-row">
         <div class="panel-title">Transactions</div>
-        <a class="hm-btn hm-btn--ghost hm-btn--sm" href="../expense%20trecker/index2.html">Expense breakdown</a>
       </div>
 
       <div id="transactionList" class="list-container" aria-live="polite"></div>
       <p class="empty-state" id="transactionEmpty" hidden>No transactions yet. Add your first income or expense on the left.</p>
+    </section>
+
+    <section class="panel-card expense-breakdown">
+      <div class="panel-title">Expense breakdown</div>
+      <div class="expense-breakdown__grid">
+        <div>
+          <ul class="category-list" id="categoryList">
+            <li class="category-item" data-category="food">
+              <div class="cat-info"><span class="dot red"></span><span class="cat-name">Food</span></div>
+              <div class="cat-value"><strong>৳ <span class="category-total">0</span></strong><span class="percentage">(0%)</span></div>
+            </li>
+            <li class="category-item" data-category="grocery">
+              <div class="cat-info"><span class="dot green"></span><span class="cat-name">Grocery</span></div>
+              <div class="cat-value"><strong>৳ <span class="category-total">0</span></strong><span class="percentage">(0%)</span></div>
+            </li>
+            <li class="category-item" data-category="bills">
+              <div class="cat-info"><span class="dot blue"></span><span class="cat-name">Bills</span></div>
+              <div class="cat-value"><strong>৳ <span class="category-total">0</span></strong><span class="percentage">(0%)</span></div>
+            </li>
+            <li class="category-item" data-category="others">
+              <div class="cat-info"><span class="dot purple"></span><span class="cat-name">Others</span></div>
+              <div class="cat-value"><strong>৳ <span class="category-total">0</span></strong><span class="percentage">(0%)</span></div>
+            </li>
+          </ul>
+          <p class="empty-state" id="categoryEmpty" hidden>No category spending yet.</p>
+        </div>
+
+        <div class="donut-card">
+          <div class="donut-chart" id="donutChart" role="img" aria-label="Expense totals by category">
+            <div class="donut-inner">
+              <div class="donut-amount" id="donutTotal">৳ 0</div>
+              <div class="donut-label">Total expenses</div>
+            </div>
+          </div>
+        </div>
+      </div>
     </section>
   </main>
 

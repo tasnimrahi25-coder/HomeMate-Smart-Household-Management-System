@@ -37,6 +37,16 @@ function init() {
   const budgetForm = document.getElementById("budgetForm");
   const monthlyBudgetInput = document.getElementById("monthlyBudget");
   const budgetMessage = document.getElementById("budgetMessage");
+  const donutChart = document.getElementById("donutChart");
+  const donutTotal = document.getElementById("donutTotal");
+  const categoryEmpty = document.getElementById("categoryEmpty");
+
+  const CATEGORY_META = {
+    food: { color: "#ef4444" },
+    grocery: { color: "#22c55e" },
+    bills: { color: "#06b6d4" },
+    others: { color: "#a855f7" }
+  };
 
   const state = {
     expenses: [],
@@ -92,6 +102,42 @@ function init() {
     balanceElement.textContent = formatTaka(balance);
     budgetRemainingElement.textContent = formatTaka(remainingBudget);
     budgetRemainingElement.style.color = remainingBudget < 0 ? "#c0392b" : "";
+    updateExpenseBreakdown();
+  }
+
+  function updateExpenseBreakdown() {
+    const totals = { food: 0, grocery: 0, bills: 0, others: 0 };
+    const total = totalOf(state.expenses);
+
+    state.expenses.forEach((expense) => {
+      const category = String(expense.category || "").trim().toLowerCase();
+      const key = Object.prototype.hasOwnProperty.call(totals, category) ? category : "others";
+      totals[key] += Number(expense.amount) || 0;
+    });
+
+    document.querySelectorAll("[data-category]").forEach((item) => {
+      const category = item.dataset.category;
+      const amount = totals[category];
+      const percentage = total > 0 ? Math.round((amount / total) * 100) : 0;
+      item.querySelector(".category-total").textContent = amount.toLocaleString(undefined, { maximumFractionDigits: 0 });
+      item.querySelector(".percentage").textContent = `(${percentage}%)`;
+    });
+
+    donutTotal.textContent = formatTaka(total);
+    if (total > 0) {
+      let start = 0;
+      const stops = Object.entries(CATEGORY_META).map(([category, meta]) => {
+        const share = (totals[category] / total) * 100;
+        const stop = `${meta.color} ${start}% ${start + share}%`;
+        start += share;
+        return stop;
+      });
+      donutChart.style.background = `conic-gradient(${stops.join(", ")})`;
+    } else {
+      donutChart.style.background = "#e2e8f0";
+    }
+
+    categoryEmpty.hidden = total > 0;
   }
 
   function createTransactionCard(transaction) {

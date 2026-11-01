@@ -16,6 +16,7 @@ body {
 
 .dashboard-container {
   display: flex;
+  flex-wrap: wrap;
   gap: 24px;
   max-width: 1160px;
   width: 100%;
@@ -409,6 +410,115 @@ input[type=number] {
   font-size: 10px;
 }
 
+.expense-breakdown {
+  flex: 0 0 100%;
+}
+
+.expense-breakdown > .panel-title {
+  margin-bottom: 18px;
+}
+
+.expense-breakdown__grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(220px, 1fr);
+  align-items: center;
+  gap: 24px;
+}
+
+.category-list {
+  list-style: none;
+}
+
+.category-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 14px 12px;
+  border-radius: 12px;
+}
+
+.cat-info {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+}
+
+.dot.red { background: #ef4444; }
+.dot.green { background: #22c55e; }
+.dot.blue { background: #06b6d4; }
+.dot.purple { background: #a855f7; }
+
+.cat-name {
+  color: #334155;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.cat-value {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 14px;
+}
+
+.cat-value strong {
+  color: #2c3e50;
+  font-size: 14px;
+}
+
+.percentage {
+  padding: 2px 8px;
+  border-radius: 20px;
+  background: #f1f5f9;
+  color: #94a3b8;
+  font-size: 12px;
+}
+
+.donut-card {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 210px;
+}
+
+.donut-chart {
+  display: flex;
+  width: 180px;
+  height: 180px;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: #e2e8f0;
+}
+
+.donut-inner {
+  display: flex;
+  width: 118px;
+  height: 118px;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: #fff;
+}
+
+.donut-amount {
+  color: #0f172a;
+  font-size: 16px;
+  font-weight: 800;
+}
+
+.donut-label {
+  color: #94a3b8;
+  font-size: 12px;
+}
+
 @media (max-width: 768px) {
   body {
     padding: 20px 14px 34px;
@@ -428,5 +538,9 @@ input[type=number] {
 
   .balance-display #balance {
     font-size: 25px;
+  }
+
+  .expense-breakdown__grid {
+    grid-template-columns: 1fr;
   }
 }

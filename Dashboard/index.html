@@ -11,9 +11,9 @@
     <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@500;600;700;800&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Sharp" rel="stylesheet">
     <link rel="stylesheet" href="../styles.css">
-    <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="../app-navigation.css">
     <link rel="stylesheet" href="../app-theme.css">
+    <link rel="stylesheet" href="style.css">
 </head>
 <body class="hm-dashboard" data-page="dashboard">
 
@@ -37,14 +37,13 @@
                 <a href="../grocery%20list/index.html" data-nav="grocery">Grocery</a>
                 <a href="../Recipe_finder/index.html" data-nav="recipes">Recipes</a>
                 <a href="../Budget_trecker/index.html" data-nav="budget">Budget</a>
-                <a href="../expense%20trecker/index2.html" data-nav="expenses">Expenses</a>
             </nav>
 
             <div class="hm-nav__account">
-                <span class="hm-nav__user" data-nav-user hidden>
+                <a class="hm-nav__user" data-nav-user hidden>
                     <span class="hm-nav__avatar" data-nav-avatar>U</span>
                     <span class="hm-nav__name" data-nav-name>Account</span>
-                </span>
+                </a>
                 <a class="hm-nav__auth" href="../login-register/index.html" data-nav-auth>Sign in</a>
                 <button class="hm-nav__logout" type="button" data-nav-logout hidden>Log out</button>
             </div>
@@ -54,111 +53,128 @@
     <div class="app-shell">
         <main class="main-content" id="overview">
             <header class="topbar">
-                <div class="breadcrumb">Home <span>/</span> <strong>Dashboard</strong></div>
-                <div class="topbar-actions">
+                <div class="dashboard-greeting">
+                    <h1 id="welcome-title">Good morning</h1>
                     <span class="today-label" id="today-label"></span>
-                    <button class="icon-button" id="theme-button" type="button" aria-label="Switch to dark theme">
-                        <span class="material-icons-sharp">dark_mode</span>
+                </div>
+                <div class="topbar-actions">
+                    <div class="notification-menu">
+                        <button class="icon-button notification-button" id="notification-button" type="button" aria-label="Notifications" aria-expanded="false" aria-controls="notification-panel">
+                            <span class="material-icons-sharp" aria-hidden="true">notifications</span>
+                            <span class="notification-dot" id="notification-dot" aria-hidden="true"></span>
+                        </button>
+                        <section class="notification-panel" id="notification-panel" aria-label="Notifications" hidden>
+                            <div class="notification-panel__heading">
+                                <h2>Notifications</h2>
+                                <button class="notification-read-button" id="notification-mark-read" type="button">Mark all read</button>
+                            </div>
+                            <div class="notification-list" id="notification-list" aria-live="polite">
+                                <p class="notification-empty">Checking household reminders...</p>
+                            </div>
+                        </section>
+                    </div>
+                    <button class="icon-button profile-button" id="theme-button" type="button" aria-label="Switch to dark theme" title="Switch theme">
+                        <span class="top-avatar" id="user-avatar" aria-label="Signed-in account">U</span>
+                        <span class="material-icons-sharp">more_horiz</span>
                     </button>
-                    <div class="top-avatar" id="user-avatar" aria-label="Signed-in account">U</div>
                 </div>
             </header>
 
             <div class="page-content">
-                <section class="welcome-row">
-                    <div>
-                        <p class="eyebrow">Household overview</p>
-                        <h1 id="welcome-title">Good morning</h1>
-                        <p class="welcome-copy">Here is your home at a glance — live from Firebase.</p>
-                    </div>
-                    <a class="primary-button" href="../grocery%20list/index.html">
-                        <span class="material-icons-sharp">add_shopping_cart</span>
-                        Open grocery list
+                <section class="status-chips" aria-label="Household reminders">
+                    <a class="status-chip status-chip--bills" id="status-bills" href="../Maintainance/index.html#bills">
+                        <span class="material-icons-sharp" aria-hidden="true">receipt_long</span>
+                        <span id="status-bills-text">Checking bills...</span>
+                    </a>
+                    <a class="status-chip status-chip--recipes" id="status-recipes" href="../Recipe_finder/index.html">
+                        <span class="material-icons-sharp" aria-hidden="true">restaurant</span>
+                        <span id="status-recipes-text">Finding recipes...</span>
+                    </a>
+                    <a class="status-chip status-chip--service" id="status-service" href="../Maintainance/index.html#appliances">
+                        <span class="material-icons-sharp" aria-hidden="true">build</span>
+                        <span id="status-service-text">Checking service dates...</span>
                     </a>
                 </section>
 
-                <section class="stats-grid" aria-label="Household summary">
-                    <article class="stat-card">
-                        <div class="stat-label">Grocery items</div>
-                        <div class="stat-value" id="stat-groceries">0</div>
-                    </article>
-                    <article class="stat-card">
-                        <div class="stat-label">Pending groceries</div>
-                        <div class="stat-value" id="stat-pending">0</div>
-                    </article>
-                    <article class="stat-card">
-                        <div class="stat-label">Monthly budget</div>
-                        <div class="stat-value" id="stat-budget">৳ 0</div>
-                    </article>
-                    <article class="stat-card">
-                        <div class="stat-label">Spent this month</div>
-                        <div class="stat-value" id="stat-spent">৳ 0</div>
-                    </article>
-                </section>
-
-                <section class="content-grid">
-                    <article class="panel">
+                <section class="content-grid overview-grid">
+                    <article class="panel budget-panel">
                         <div class="panel-heading">
-                            <h2>Pending groceries</h2>
-                            <a class="text-link" href="../grocery%20list/index.html">Open list</a>
+                            <h2 id="budget-month">Monthly budget</h2>
+                            <a class="text-link" href="../Budget_trecker/index.html">Edit</a>
                         </div>
-                        <ul class="item-list" id="pending-groceries"></ul>
-                        <p class="action-feedback" id="grocery-empty" hidden>Your shopping list is clear.</p>
-                    </article>
-
-                    <article class="panel">
-                        <div class="panel-heading">
-                            <h2>Recent expenses</h2>
-                            <a class="text-link" href="../expense%20trecker/index2.html">See all</a>
-                        </div>
-                        <ul class="item-list" id="recent-expenses"></ul>
-                        <p class="action-feedback" id="expense-empty" hidden>No expenses recorded yet.</p>
-                    </article>
-                </section>
-
-                <section class="content-grid lower-grid">
-                    <article class="panel">
-                        <div class="panel-heading">
-                            <h2>Budget used</h2>
-                            <a class="text-link" href="../Budget_trecker/index.html">Manage budget</a>
-                        </div>
-                        <div class="spending-summary">
-                            <div>
-                                <span class="muted-label">Spent this month</span>
-                                <strong id="budget-spent">৳ 0</strong>
+                        <div class="budget-overview">
+                            <div class="budget-donut" id="budget-donut" role="img" aria-label="Monthly budget overview">
+                                <div class="budget-donut__center">
+                                    <span>Free</span>
+                                    <strong id="budget-free">৳ 0</strong>
+                                </div>
                             </div>
-                            <span class="budget-note"><span class="budget-dot"></span><span id="budget-remaining">৳ 0 remaining</span></span>
+                            <div class="budget-legend">
+                                <div class="budget-legend__heading"><span>Budget</span><strong id="budget-limit">৳ 0</strong></div>
+                                <div class="budget-legend__item"><span><i class="legend-dot legend-dot--paid"></i>Paid</span><strong id="budget-paid">৳ 0</strong></div>
+                                <div class="budget-legend__item"><span><i class="legend-dot legend-dot--unpaid"></i>Unpaid</span><strong id="budget-unpaid">৳ 0</strong></div>
+                            </div>
                         </div>
-                        <div class="budget-track"><span id="budget-fill" style="width: 0%;"></span></div>
-                        <div class="budget-scale"><span>৳ 0</span><span id="budget-scale">৳ 0</span></div>
+                        <p class="budget-note" id="budget-note">
+                            <span class="material-icons-sharp" aria-hidden="true">edit_note</span>
+                            <span id="budget-note-text">Your monthly spending summary will appear here.</span>
+                        </p>
                     </article>
 
-                    <article class="panel">
+                    <article class="panel bills-panel">
                         <div class="panel-heading">
-                            <h2>Top categories</h2>
-                            <span class="eyebrow">This month</span>
+                            <h2>Bills</h2>
+                            <a class="text-link" href="../Maintainance/index.html#bills">View all</a>
                         </div>
-                        <div id="top-categories"></div>
-                        <p class="action-feedback" id="category-empty" hidden>No spending categories yet.</p>
+                        <div class="bill-list" id="dashboard-bills" aria-live="polite"></div>
+                        <p class="empty-message" id="bill-empty" hidden>No household bills yet.</p>
                     </article>
                 </section>
 
-                <section class="content-grid lower-grid recipe-section">
-                    <article class="panel recipe-panel">
+                <section class="content-grid home-grid">
+                    <article class="panel cook-panel">
                         <div class="panel-heading">
-                            <h2>Recipe ideas</h2>
-                            <a class="text-link" href="../Recipe_finder/index.html">Open recipes</a>
+                            <h2>Cook today</h2>
                         </div>
-                        <div id="recipe-idea" class="recipe-idea" aria-live="polite">
-                            <div class="recipe-idea__loading">Loading recipe ideas...</div>
+                        <div class="cook-recipe" id="recipe-idea" aria-live="polite">
+                            <span class="material-icons-sharp cook-recipe__icon" aria-hidden="true">soup_kitchen</span>
+                            <div class="cook-recipe__text">
+                                <strong>Finding something delicious...</strong>
+                                <span>Recipe ideas for your household</span>
+                            </div>
+                        </div>
+                        <a class="outline-button" href="../Recipe_finder/index.html">View recipe</a>
+                    </article>
+
+                    <article class="panel stock-panel">
+                        <div class="panel-heading">
+                            <h2>Low stock</h2>
+                            <a class="text-link" href="../grocery%20list/index.html">View list</a>
+                        </div>
+                        <ul class="low-stock-list" id="low-stock-list"></ul>
+                        <p class="empty-message" id="grocery-empty" hidden>Your grocery list is clear.</p>
+                    </article>
+
+                    <article class="panel service-panel">
+                        <div class="panel-heading">
+                            <h2>Next service</h2>
+                            <a class="text-link" href="../Maintainance/index.html#appliances">View all</a>
+                        </div>
+                        <div class="service-summary" id="service-summary">
+                            <strong id="service-days">—</strong>
+                            <span id="service-days-label">days left</span>
+                            <b id="service-appliance">No service scheduled</b>
+                            <small id="service-date"></small>
                         </div>
                     </article>
                 </section>
 
-                <footer class="page-footer">
-                    Your home, a little more in harmony.
-                    <span>HomeMate dashboard · Live Firebase data</span>
-                </footer>
+                <section class="quick-actions" aria-label="Quick actions">
+                    <a class="outline-button" href="../grocery%20list/index.html"><span class="material-icons-sharp" aria-hidden="true">add</span>Ingredient</a>
+                    <a class="outline-button" href="../grocery%20list/index.html"><span class="material-icons-sharp" aria-hidden="true">shopping_cart</span>Grocery item</a>
+                    <a class="outline-button" href="../Maintainance/index.html#bills"><span class="material-icons-sharp" aria-hidden="true">receipt_long</span>Add bill</a>
+                    <a class="outline-button" href="../Budget_trecker/index.html"><span class="material-icons-sharp" aria-hidden="true">edit_note</span>Budget note</a>
+                </section>
             </div>
         </main>
     </div>

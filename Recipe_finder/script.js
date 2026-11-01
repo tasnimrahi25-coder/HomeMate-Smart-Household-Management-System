@@ -83,7 +83,7 @@ pantrySearchForm.addEventListener("submit", (event) => {
 
 async function searchByIngredients(ingredients) {
     const ingredientLabel = ingredients.join(", ");
-    showMessage(`Finding recipes with ${ingredientLabel}...`, false, true);
+    showMessage(`Finding recipes with all of ${ingredientLabel}...`, false, true);
     resultsGrid.innerHTML = "";
 
     try {
@@ -108,17 +108,18 @@ async function searchByIngredients(ingredients) {
             });
         });
 
-        const rankedRecipes = [...matches.values()]
-            .sort((first, second) => second.count - first.count || first.recipe.strMeal.localeCompare(second.recipe.strMeal))
-            .map(({ recipe, count }) => ({ ...recipe, matchedIngredients: count }));
+        const candidates = [...matches.values()]
+            .filter(({ count }) => count === ingredients.length)
+            .map(({ recipe }) => ({ ...recipe, matchedIngredients: ingredients.length }))
+            .sort((first, second) => first.strMeal.localeCompare(second.strMeal));
 
         clearMessage();
-        if (rankedRecipes.length > 0) {
-            displayRecipes(rankedRecipes, ingredients.length);
-            showMessage(`Found ${rankedRecipes.length} recipes using your ingredients. Best matches are shown first.`);
+        if (candidates.length > 0) {
+            displayRecipes(candidates, ingredients.length);
+            showMessage(`Found ${candidates.length} recipes using all your searched ingredients.`);
             messageArea.classList.add("info");
         } else {
-            showMessage(`No recipes found for ${ingredientLabel}. Try different or more common ingredient names.`);
+            showMessage(`No recipes found using all of ${ingredientLabel}. Try different ingredients.`);
         }
     } catch (error) {
         showMessage("Could not search recipes right now. Check your connection and try again.", true);

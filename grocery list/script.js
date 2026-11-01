@@ -36,6 +36,7 @@ function init(currentUser) {
     search: ""
   };
 
+  dateInput.min = todayISO();
   dateInput.value = todayISO();
 
   const displayName = currentUser.displayName || currentUser.email?.split("@")[0] || "U";
@@ -158,10 +159,17 @@ function init(currentUser) {
     const name = nameInput.value.trim();
     const price = priceInput.value;
     const date = dateInput.value || todayISO();
+    dateInput.min = todayISO();
 
     if (!name) {
       setMessage("Please enter an item name.", "error");
       nameInput.focus();
+      return;
+    }
+
+    if (date < dateInput.min) {
+      setMessage("Grocery items cannot be added for a past date.", "error");
+      dateInput.focus();
       return;
     }
 

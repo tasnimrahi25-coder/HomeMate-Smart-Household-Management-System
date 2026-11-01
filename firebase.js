@@ -60,7 +60,8 @@ export const routes = {
   grocery: projectUrl("grocery list/index.html"),
   budget: projectUrl("Budget_trecker/index.html"),
   expenses: projectUrl("expense trecker/index2.html"),
-  maintenance: projectUrl("Maintainance/index.html")
+  maintenance: projectUrl("Maintainance/index.html"),
+  profile: projectUrl("Profile/index.html")
 };
 
 /* ------------------------------------------------------------------ */
@@ -194,6 +195,17 @@ export async function updateUserProfile(patch) {
   await setDoc(doc(db, "users", uid), { ...patch }, { merge: true });
 }
 
+export async function updateAccountName(name) {
+  const user = auth.currentUser;
+  if (!user) throw new Error("You must be signed in to update your profile.");
+
+  const cleanName = String(name || "").trim();
+  if (!cleanName) throw new Error("Please enter your name.");
+
+  await updateProfile(user, { displayName: cleanName });
+  await updateUserProfile({ name: cleanName });
+}
+
 /* ------------------------------------------------------------------ */
 /* Firestore helpers                                                   */
 /* ------------------------------------------------------------------ */
@@ -210,6 +222,35 @@ function userCollection(name) {
 
 const mapSnapshot = (snapshot) => snapshot.docs.map((item) => ({ id: item.id, ...item.data() }));
 
+/** Validates a "YYYY-MM-DD" string and returns it unchanged. */
+function assertISODate(value, label) {
+  const text = String(value || "").trim();
+  const parsed = new Date(`${text}T00:00:00`);
+  const valid =
+    /^\d{4}-\d{2}-\d{2}$/.test(text) &&
+    !Number.isNaN(parsed.getTime()) &&
+    parsed.getFullYear() === Number(text.slice(0, 4)) &&
+    parsed.getMonth() + 1 === Number(text.slice(5, 7)) &&
+    parsed.getDate() === Number(text.slice(8, 10));
+
+  if (!valid) throw new Error(`Please choose a valid ${label}.`);
+  return text;
+}
+
+/** Adds months to a "YYYY-MM-DD" date without rolling into the wrong month. */
+function addMonthsISO(value, months) {
+  const date = new Date(`${assertISODate(value, "date")}T00:00:00`);
+  const day = date.getDate();
+  date.setDate(1);
+  date.setMonth(date.getMonth() + months);
+  date.setDate(Math.min(day, new Date(date.getFullYear(), date.getMonth() + 1, 0).getDate()));
+
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, "0");
+  const dayOfMonth = String(date.getDate()).padStart(2, "0");
+  return `${year}-${month}-${dayOfMonth}`;
+}
+
 export function watchGroceries(onNext, onError) {
   return onSnapshot(userCollection("groceries"), (snapshot) => onNext(mapSnapshot(snapshot)), onError);
 }
@@ -218,11 +259,26 @@ export async function addGrocery({ name, price = 0, date } = {}) {
   const cleanName = String(name || "").trim();
   if (!cleanName) throw new Error("Please enter an item name.");
 
+  const cleanDate = String(date || todayISO());
+  const parsedDate = new Date(`${cleanDate}T00:00:00`);
+  if (
+    !/^\d{4}-\d{2}-\d{2}$/.test(cleanDate) ||
+    Number.isNaN(parsedDate.getTime()) ||
+    parsedDate.getFullYear() !== Number(cleanDate.slice(0, 4)) ||
+    parsedDate.getMonth() + 1 !== Number(cleanDate.slice(5, 7)) ||
+    parsedDate.getDate() !== Number(cleanDate.slice(8, 10))
+  ) {
+    throw new Error("Please choose a valid date.");
+  }
+  if (cleanDate < todayISO()) {
+    throw new Error("Grocery items cannot be added for a past date.");
+  }
+
   const reference = await addDoc(userCollection("groceries"), {
     name: cleanName,
     status: "pending",
     price: Math.max(0, Number(price) || 0),
-    date: date || new Date().toISOString().slice(0, 10),
+    date: cleanDate,
     expenseLogged: false,
     createdAt: serverTimestamp()
   });
@@ -245,21 +301,69 @@ export function watchMaintenance(onNext, onError) {
 export async function addMaintenance({ item, lastService = "", nextService, intervalMonths = 6 } = {}) {
   const cleanItem = String(item || "").trim();
   if (!cleanItem) throw new Error("Please enter an appliance name.");
-  if (!nextService) throw new Error("Please choose the next service date.");
+
+  const interval = Number(intervalMonths);
+  if (!Number.isFinite(interval) || interval < 1) {
+    throw new Error("Please choose a valid service interval.");
+  }
+
+  const cleanLast = lastService ? assertISODate(lastService, "last service date") : "";
+  if (cleanLast && cleanLast > todayISO()) {
+    throw new Error("The last service date cannot be in the future.");
+  }
+
+  const cleanNext = nextService
+    ? assertISODate(nextService, "next service date")
+    : cleanLast
+      ? addMonthsISO(cleanLast, Math.round(interval))
+      : "";
+
+  if (!cleanNext) throw new Error("Please choose the next service date.");
+  if (cleanLast && cleanNext < cleanLast) {
+    throw new Error("The next service date must be after the last service date.");
+  }
 
   const reference = await addDoc(userCollection("maintenance"), {
     item: cleanItem,
-    lastService: String(lastService || ""),
-    nextService: String(nextService),
-    intervalMonths: Number(intervalMonths) || 6,
+    lastService: cleanLast,
+    nextService: cleanNext,
+    intervalMonths: Math.round(interval),
     createdAt: serverTimestamp()
   });
 
   return reference.id;
 }
 
-export async function updateMaintenance(id, patch) {
-  await updateDoc(doc(db, "users", currentUid(), "maintenance", id), patch);
+export async function updateMaintenance(id, patch = {}) {
+  const next = { ...patch };
+
+  if ("lastService" in next) {
+    next.lastService = next.lastService ? assertISODate(next.lastService, "last service date") : "";
+    if (next.lastService && next.lastService > todayISO()) {
+      throw new Error("The last service date cannot be in the future.");
+    }
+  }
+  if ("nextService" in next) {
+    next.nextService = assertISODate(next.nextService, "next service date");
+  }
+  if ("item" in next) {
+    const cleanItem = String(next.item || "").trim();
+    if (!cleanItem) throw new Error("Please enter an appliance name.");
+    next.item = cleanItem;
+  }
+  if ("intervalMonths" in next) {
+    const interval = Number(next.intervalMonths);
+    if (!Number.isFinite(interval) || interval < 1) {
+      throw new Error("Please choose a valid service interval.");
+    }
+    next.intervalMonths = Math.round(interval);
+  }
+
+  await updateDoc(doc(db, "users", currentUid(), "maintenance", id), next);
+}
+
+export async function deleteMaintenance(id) {
+  await deleteDoc(doc(db, "users", currentUid(), "maintenance", id));
 }
 
 export function watchBills(onNext, onError) {
@@ -271,21 +375,45 @@ export async function addBill({ name, amount, due } = {}) {
   const value = Number(amount);
   if (!cleanName) throw new Error("Please enter a bill name.");
   if (!Number.isFinite(value) || value <= 0) throw new Error("Please enter an amount greater than zero.");
-  if (!due) throw new Error("Please choose a due date.");
+  const cleanDue = assertISODate(due, "due date");
 
   const reference = await addDoc(userCollection("bills"), {
     name: cleanName,
     amount: value,
-    due: String(due),
+    due: cleanDue,
     paid: false,
+    paidAt: "",
+    expenseId: null,
     createdAt: serverTimestamp()
   });
 
   return reference.id;
 }
 
-export async function updateBill(id, patch) {
-  await updateDoc(doc(db, "users", currentUid(), "bills", id), patch);
+export async function updateBill(id, patch = {}) {
+  const next = { ...patch };
+
+  if ("name" in next) {
+    const cleanName = String(next.name || "").trim();
+    if (!cleanName) throw new Error("Please enter a bill name.");
+    next.name = cleanName;
+  }
+  if ("amount" in next) {
+    const value = Number(next.amount);
+    if (!Number.isFinite(value) || value <= 0) {
+      throw new Error("Please enter an amount greater than zero.");
+    }
+    next.amount = value;
+  }
+  if ("due" in next) {
+    next.due = assertISODate(next.due, "due date");
+  }
+
+  await updateDoc(doc(db, "users", currentUid(), "bills", id), next);
+}
+
+export async function deleteBill(id) {
+  await deleteDoc(doc(db, "users", currentUid(), "bills", id));
 }
 
 export function watchExpenses(onNext, onError) {
@@ -353,7 +481,11 @@ export function formatTaka(value) {
 }
 
 export function todayISO() {
-  return new Date().toISOString().slice(0, 10);
+  const date = new Date();
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, "0");
+  const day = String(date.getDate()).padStart(2, "0");
+  return `${year}-${month}-${day}`;
 }
 
 export function isCurrentMonth(dateValue) {
