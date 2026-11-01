@@ -1,3 +1,6 @@
+<<<<<<< HEAD
+# hommate
+=======
 # 🏠 HomeMate — Smart Household Management System
 
 > One calm place for your groceries, budget, expenses and household overview.
@@ -277,3 +280,4 @@ users/{uid}/bills/{billId}
 ## 📄 License
 
 This project was developed for educational purposes.
+>>>>>>> 5caafcad7904b8cb41ba1c8f9c3c9c430f8a1d49

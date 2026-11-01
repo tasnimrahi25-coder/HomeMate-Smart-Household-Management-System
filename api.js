@@ -135,4 +135,8 @@ const Api = (() => {
 
     RESOURCES,
   };
+<<<<<<< HEAD
 })();
+=======
+})();
+>>>>>>> 5caafcad7904b8cb41ba1c8f9c3c9c430f8a1d49
