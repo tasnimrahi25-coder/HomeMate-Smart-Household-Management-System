@@ -1,15 +1,23 @@
-<<<<<<< HEAD
-# hommate
-=======
 # 🏠 HomeMate — Smart Household Management System
 
-> One calm place for your groceries, budget, expenses and household overview.
+> One calm place for your recipes, groceries, budget, expenses and household bills.
 
 ## 📖 About the Project
 
-**HomeMate** is a web-based household management application that connects everyday money and shopping tasks in one place. Instead of keeping a shopping list in a notes app, a budget in a calculator and a dashboard somewhere else, HomeMate stores everything under one Firebase account so **one action updates every module**.
+**HomeMate** is a web-based household management application that connects everyday cooking, shopping, money and maintenance tasks in one place. Instead of keeping a shopping list in a notes app, a budget in a calculator and bill dates in a calendar, HomeMate stores everything under one Firebase account so **one action updates every module**.
 
 It is built as a group project with **HTML, CSS and JavaScript (ES modules)** for the interface and **Firebase Authentication + Cloud Firestore** for accounts and data.
+
+## ⭐ The Four Core Features
+
+| # | Feature | What it does |
+|---|---------|--------------|
+| 1 | 🍳 **Recipe Finder** | Find recipes and see which ingredients are missing (static prototype, connection planned) |
+| 2 | 🛒 **Grocery Management** | Add, search, tick off and delete grocery items; purchases become expenses |
+| 3 | 💰 **Budget & Expense Tracking** | Set a monthly budget, record income and expenses, see category totals and the remaining balance |
+| 4 | 🛠️ **Maintenance & Bills** | Appliance service schedule plus household bills; paid bills flow into shared expenses |
+
+These are supported by a **landing page**, **login / register** and a live **dashboard**.
 
 ## ✨ What Is Included
 
@@ -22,8 +30,9 @@ It is built as a group project with **HTML, CSS and JavaScript (ES modules)** fo
 | Budget tracker | `Budget_trecker/index.html` | Set a monthly budget, record income and expenses, see the remaining balance |
 | Expense tracker | `expense trecker/index2.html` | Add/delete expenses, category totals, donut chart and recent activity |
 | Maintenance & bills | `Maintainance/index.html` | Appliance service schedule plus household bills; paid bills flow into shared expenses |
+| Recipe finder | `recipe_finder/` | Static prototype, not yet part of the shared navigation |
 
-**Planned but not yet wired to Firebase:** recipe finder, food-waste tracking and chores. The `recipe_finder/` folder is a static prototype and is not part of the shared navigation.
+**Planned but not yet wired to Firebase:** the recipe finder (its missing ingredients will later flow into the grocery list).
 
 ## 🔗 How the Modules Work Together
 
@@ -52,7 +61,7 @@ Expense tracker and dashboard show the same total
 | Styling | CSS3 | Shared design system, responsive layout, dashboard dark theme |
 | Logic | JavaScript ES modules | UI behaviour, calculations, live Firestore listeners |
 | Auth | Firebase Authentication | Email/password accounts and password reset |
-| Database | Cloud Firestore | Per-user groceries, expenses, income and profile |
+| Database | Cloud Firestore | Per-user groceries, expenses, income, maintenance, bills and profile |
 | Hosting | Any static HTTP server | The app is fully client-side |
 
 ## 📁 Project Structure
@@ -229,7 +238,7 @@ users/{uid}/bills/{billId}
   paidAt           "YYYY-MM-DD" | ""
   expenseId        string | null   (links a paid bill to its expense)
   createdAt        timestamp
-```
+
 
 ## 🚀 Usage Guide
 
@@ -267,17 +276,14 @@ users/{uid}/bills/{billId}
 ## 🔮 Future Improvements
 
 - Connect the recipe finder and let missing ingredients flow into the grocery list
-- Food-waste expiry alerts and leftover tracking
-- Household chores tracking
 - Push or email notifications for upcoming service dates and bills
 - Barcode scanning for groceries
-- Monthly spending and waste charts
+- Monthly spending charts
 - Multi-household support with role-based permissions
 - Bangla language support and a Progressive Web App build
 
----
+
 
 ## 📄 License
 
 This project was developed for educational purposes.
->>>>>>> 5caafcad7904b8cb41ba1c8f9c3c9c430f8a1d49
